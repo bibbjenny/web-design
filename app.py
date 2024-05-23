@@ -8,9 +8,10 @@ app = Flask(__name__)
 #     return render_template("index.html", name = name1)
 
 @app.route("/")
-def home():
+def index():
     names = ["Jenny", "Sophia", "Nora", "John"]
     return render_template("index.html", names = names)
+
 
 
 
