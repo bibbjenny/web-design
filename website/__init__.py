@@ -1,17 +1,14 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-DB_NAME = 'web.db'
+import sqlite3
 
 def create_app():
     app = Flask(__name__)
+    # where does the db open? would I need to close db here?
+    # where to put the cursor
 
     app.config['SECRET_KEY'] = 'apple pie'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    db.init_app(app)
 
-    from .views import views 
+    from .views import views
     from .auth import auth
 
     app.register_blueprint(views, url_prefix = '/')
@@ -19,5 +16,5 @@ def create_app():
     
     return app
 
-
+    
 
