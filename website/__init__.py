@@ -3,8 +3,6 @@ import sqlite3
 
 def create_app():
     app = Flask(__name__)
-    # where does the db open? would I need to close db here?
-    # where to put the cursor
 
     app.config['SECRET_KEY'] = 'apple pie'
 

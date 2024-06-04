@@ -18,28 +18,43 @@ def login():
         # get user info(0 id, 1 email, 2 username, 3 password, 4 profile pic)
         db = sqlite3.connect('web.db')
         cursor = db.cursor()
-        sql = f'''SELECT * FROM user;'''
-        cursor.execute(sql)
+        sql = f'SELECT * FROM user where username = ?;'
+        cursor.execute(sql, (username,))
+        # user = query_db(sql=sql,args=(username,),one=True) 이건 대체 뭔지...
         userdata = cursor.fetchall()
         db.close()
-        session['userdata'] = userdata # store userdata
         
-        for data in userdata:
-            if username == data[2]: #check username
-                if check_password_hash(data[3], password):#check password
-                    flash('Logged in successfully', category='success')
-                    return redirect(url_for('views.home'))
-                else: # invalid login
-                    flash('Invalid username and/or password', category='error')
-            else: # invalid login
+        user = userdata[0]
+        if user: 
+            # got a user
+            # check password
+            if check_password_hash(user[3], password):
+                flash('Logged in successfully', category='success')
+                # store userdata
+                session['user'] = user 
+                return redirect(url_for('views.home'))
+            else: 
                 flash('Invalid username and/or password', category='error')
+        else:
+            flash('Invalid username and/or password', category='error')
 
     return render_template("login.html")
 
 @auth.route('/logout')
 def logout():
-    return '<p>Logout</p>'
+    session['user'] = None
+    flash('Logged out successfully')
+    return redirect(url_for('auth.login'))
+    # if (session['user']!= None):
+    #     session['user'] = None
+    #     flash('Logged out successfully')
+    #     return redirect(url_for('auth.login'))
+    # else:
+    #     flash('You are not logged in', category='error')
+    #     return redirect(url_for('auth.login'))
 
+    # how to make sure user can't access this route unless logged in?
+        
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     # User reached route via POST (as by submitting a form via POST)
@@ -56,7 +71,8 @@ def sign_up():
         ELSE 'FALSE'
         END'''
         cursor.execute(sql)
-        result = cursor.fetchall()
+        results = cursor.fetchone()
+        result = results[0]
         db.close()
         if result == 'TRUE':
             flash('Username already exist', category='error')
@@ -76,6 +92,6 @@ def sign_up():
             db.commit()
             db.close()
             flash('Account created!', category='success')
-            return redirect(url_for('views.home'))
+            return redirect(url_for('auth.login'))
             
     return render_template("signup.html")

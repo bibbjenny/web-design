@@ -28,15 +28,21 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
       <div class="navbar-nav">
+        <a class="nav-item nav-link" id="home" href="/">Home</a>
+        <a class="nav-item nav-link" id="quiz" href="/quiz">Quiz</a>
+        {% if (session['user']!= None) %} 
+        <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+        {% else %}
         <a class="nav-item nav-link" id="login" href="/login">Login</a>
         <a class="nav-item nav-link" id="signup" href="/sign-up">Sign Up</a>
-        <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-        <a class="nav-item nav-link" id="home" href="/">Home</a>
+        {% endif %}
+        <!-- how to have pop up menus? -->
       </div>
     </div>
   </nav>
 
   {% with messages = get_flashed_messages(with_categories=true) %}
+  <!-- how to make flash messages automatically dismiss -->
   {% if messages %}
     {% for category, message in messages %}
     {% if category == 'error' %}
