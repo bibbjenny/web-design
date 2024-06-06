@@ -42,18 +42,13 @@ def login():
 
 @auth.route('/logout')
 def logout():
-    session['user'] = None
-    flash('Logged out successfully')
-    return redirect(url_for('auth.login'))
-    # if (session['user']!= None):
-    #     session['user'] = None
-    #     flash('Logged out successfully')
-    #     return redirect(url_for('auth.login'))
-    # else:
-    #     flash('You are not logged in', category='error')
-    #     return redirect(url_for('auth.login'))
-
-    # how to make sure user can't access this route unless logged in?
+    if 'user' in session:
+        session['user'] = None
+        flash('Logged out successfully')
+        return redirect(url_for('auth.login'))
+    else:
+        flash('You are not logged in', category='error')
+        return redirect(url_for('auth.login'))
         
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
