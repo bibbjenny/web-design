@@ -17,7 +17,7 @@ def query_db(sql,args=(),one=False): # one=False exact meaning
 def home():
     return render_template("home.html")
 
-@views.route('/quiz/<id>/', methods=['GET', 'POST'])
+@views.route('/quiz/<int:id>/', methods=['GET', 'POST'])
 def quiz(id):
     if id == '0':
         return render_template('quizHome.html')
