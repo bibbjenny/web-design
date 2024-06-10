@@ -15,15 +15,14 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         
-        # get user info(0 id, 1 email, 2 username, 3 password, 4 profile pic)
         db = sqlite3.connect('web.db')
         cursor = db.cursor()
         sql = f'SELECT * FROM user where username = ?;'
         cursor.execute(sql, (username,))
-        # user = query_db(sql=sql,args=(username,),one=True) 이건 대체 뭔지...
         userdata = cursor.fetchall()
         db.close()
         
+        # get user info(0 id, 1 email, 2 username, 3 password, 4 profile pic)
         user = userdata[0]
         if user: 
             # got a user

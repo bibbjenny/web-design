@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "base.html" %} {% block title %} Python quiz - Question {{ id }} {% endblock %}
 
 {% block content %}
 <br>
@@ -15,11 +15,12 @@
             type="user_answer" 
             class="form-control" 
             id="user_answer" 
-            name="user_answer" 
+            name="user_answer"
             placeholder="Enter answer"
+            required
         />
     </div>
     <br>
-    <button type="submit" class="btn btn-outline-info">Submit answer</button>
+    <button type="submit" class="btn btn-outline-info">Submit</button>
 </form>
 {% endblock %}
