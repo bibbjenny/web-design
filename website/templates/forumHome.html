@@ -2,8 +2,19 @@
 
 {% block content %}
 <br>
-<h1>This is the forum home page</h1>
+<h1 align="center">Posts</h1>
 <br>
-<p align="center">{{ posts }}</p>
+    {% for post in posts %}
+    <li class="list-group-item custom-bg">
+        <a href="{{ url_for('views.forum', id=post[0]) }}" class="custom-link">{{ post[2] }}</a>
+    </li>
+    {% endfor %}
+<ul class="list-group list-group-flush" id="posts">
+
+</ul>
+
+<button type="button" class="btn btn-outline-info">
+    <a href="{{ url_for('views.forum', id='create') }}" class="custom-link">Create new post</a>
+</button>
 
 {% endblock %}
