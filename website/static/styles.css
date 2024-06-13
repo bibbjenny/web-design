@@ -12,23 +12,7 @@
     text-decoration: none;
 }
 
-body {
-    display: flex;
-}
-.sidebar {
-    width: 250px;
-    background-color: #faf3f2;
-    height: 100vh;
-    position: fixed;
-}
-.content {
-    margin-left: 250px;
-    padding: 20px;
-    width: 100%;
-}
-.nav-link {
-    color: #333;
-}
-.nav-link:hover {
-    color: #007bff;
+.navbar
+{
+    border-bottom:2px solid #a5a5a5;
 }

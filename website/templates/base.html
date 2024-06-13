@@ -18,7 +18,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body class="custom-bg">
-  <!-- <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class = "navbar navbar-expand-lg navbar-light custom-bg">
     <button 
       class="navbar-toggler" 
       type ="button" 
@@ -33,7 +33,7 @@
         <a class="nav-item nav-link" id="resources" href="/resources">Resources</a>
         <a class="nav-item nav-link" id="quiz" href="/quiz/home">Quiz</a>
         <a class="nav-item nav-link" id="forum" href="/forum/home">Forum board</a>
-        {% if (session['user'] != None) %} 
+        {% if session['user'] is not none %} 
         <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
         {% else %}
         <a class="nav-item nav-link" id="login" href="/login">Login</a>
@@ -41,22 +41,8 @@
         {% endif %}
       </div>
     </div>
-  </nav> -->
+  </nav>
 
-  <div class="sidebar">
-        <nav class="nav flex-column">
-          <a class="nav-item nav-link" id="home" href="/">Home</a>
-          <a class="nav-item nav-link" id="resources" href="/resources">Resources</a>
-          <a class="nav-item nav-link" id="quiz" href="/quiz/home">Quiz</a>
-          <a class="nav-item nav-link" id="forum" href="/forum/home">Forum board</a>
-          {% if (session['user'] != None) %} 
-          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-          {% else %}
-          <a class="nav-item nav-link" id="login" href="/login">Login</a>
-          <a class="nav-item nav-link" id="signup" href="/sign-up">Sign Up</a>
-          {% endif %}
-        </nav>
-    </div>
 
   {% with messages = get_flashed_messages(with_categories=true) %}
   <!-- how to make flash messages automatically dismiss -->
