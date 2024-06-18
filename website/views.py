@@ -115,23 +115,31 @@ def forum(id):
     else:
         # id = forum_posts.postID
         id = int(id)
-        sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
-        post_data = query_db(sql, (id,), one = True)
-        # postID = 0, userID = 1, title = 2, content = 3, date = 4
 
+        # GRAB POST
+        sql_post = '''SELECT f.title, f.content, f.post_date, u.username, u.profile_pic
+        FROM user u
+        LEFT JOIN forum_posts f on u.userID = f.userID
+        WHERE f.postID = ?;'''
+        post_data = query_db(sql_post, (id,), one=True)
+        # title 0, content 1, date 2, username 3, profile_pic 4
         if not post_data: # post doesn't exist
             flash('Post not available.', category='error')
             return redirect(url_for('views.forum', id = 'home'))
-        
-        sql = '''
-        SELECT user.username, user.profile_pic, forum_posts.userID
-        FROM user
-        LEFT JOIN forum_posts on user.userID = forum_posts.userID
-        WHERE forum_posts.postID = ?;
-        '''
-        user = query_db(sql, (id,), one=True)
-        # username = 0, profile pic = 1, userID = 2
-        return render_template('forum.html', title = post_data[2], content = post_data[3], date = post_data[4], username = user[0], profile_pic = user[1])
+
+        # GRAB COMMENTS
+        sql_comment = '''SELECT c.*, u.username
+        FROM comments c
+        LEFT JOIN user u ON c.userID = u.userID
+        WHERE c.postID = ?;'''
+        comment_data = query_db(sql_comment, (id,))
+        # comID 0, userID 1, postID 2, content 3, date 4, username 5
+
+        return render_template('forum.html', title = post_data[0],
+        content = post_data[1],
+        date = post_data[2],
+        username = post_data[3],
+        profile_pic = post_data[4], comments = comment_data)
     
 # @views.route('/comments/<id>', methods=['GET', 'POST'])
 # def comments(id):

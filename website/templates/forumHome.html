@@ -4,15 +4,16 @@
 <br>
 <h1 align="center">Posts</h1>
 <br>
+    
+<ul class="list-group list-group-flush" id="posts">
     {% for post in posts %}
     <li class="list-group-item custom-bg">
         <a href="{{ url_for('views.forum', id=post[0]) }}" class="custom-link">{{ post[2] }}</a>
     </li>
     {% endfor %}
-<ul class="list-group list-group-flush" id="posts">
-
 </ul>
 
+<br>
 <button type="button" class="btn btn-outline-info">
     <a href="{{ url_for('views.forum', id='create') }}" class="custom-link">Create new post</a>
 </button>

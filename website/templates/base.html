@@ -33,11 +33,11 @@
         <a class="nav-item nav-link" id="resources" href="/resources">Resources</a>
         <a class="nav-item nav-link" id="quiz" href="/quiz/home">Quiz</a>
         <a class="nav-item nav-link" id="forum" href="/forum/home">Forum board</a>
-        {% if session['user'] is not none %} 
-        <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+        {% if session.get('user') %}
+          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
         {% else %}
-        <a class="nav-item nav-link" id="login" href="/login">Login</a>
-        <a class="nav-item nav-link" id="signup" href="/sign-up">Sign Up</a>
+          <a class="nav-item nav-link" id="login" href="/login">Login</a>
+          <a class="nav-item nav-link" id="signup" href="/sign-up">Sign Up</a>
         {% endif %}
       </div>
     </div>

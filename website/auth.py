@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
-
+from functools import wraps
 import sqlite3
 
 from werkzeug.security import generate_password_hash, check_password_hash 
@@ -7,6 +7,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 auth = Blueprint('auth', __name__)
+
+# def login_required(f):
+#     @wraps(f)
+#     def decorated_function(*args, **kwargs):
+#         if 'user' not in session:
+#             session['next_url'] = request.url
+#             return redirect(url_for('auth.login'))
+#         return f(*args, **kwargs)
+#     return decorated_function
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -30,7 +39,7 @@ def login():
             if check_password_hash(user[3], password):
                 flash('Logged in successfully', category='success')
                 # store userdata
-                session['user'] = user 
+                session['user'] = user
                 return redirect(url_for('views.home'))
             else: 
                 flash('Invalid username and/or password', category='error')
@@ -42,9 +51,9 @@ def login():
 @auth.route('/logout')
 def logout():
     if 'user' in session:
-        session['user'] = None
+        session.pop('user', None)
         flash('Logged out successfully')
-        return redirect(url_for('auth.login'))
+        return redirect(request.referrer or url_for('views.home'))
     else:
         flash('You are not logged in', category='error')
         return redirect(url_for('auth.login'))
@@ -85,7 +94,7 @@ def sign_up():
             cursor.execute(sql)
             db.commit()
             db.close()
-            flash('Account created!', category='success')
-            return redirect(url_for('auth.login'))
+            flash('Account created! Please login to continue', category='success')
+            return redirect(url_for(request.referrer or 'auth.login'))
             
     return render_template("signup.html")

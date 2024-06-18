@@ -1,5 +1,4 @@
-from flask import Flask
-import sqlite3
+from flask import Flask, session
 
 def create_app():
     app = Flask(__name__)
