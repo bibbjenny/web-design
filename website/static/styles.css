@@ -37,12 +37,21 @@
 
 .submit-comment {
   padding: 5px 10px;
-  background-color: rgb(192, 181, 181);
-  color: white;
+  background-color: white;
+  color: rgb(192, 181, 181);
+  text-align: right;
   border: none;
   border-radius: 12px;
   font-family: "JetBrains Mono",monospace;
   font-size: 16px;
+}
+
+textarea {
+  padding: 5px;
+  margin: 4px;
+  border: none;
+  border-width: 2px;
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
 }
 
 .button-30 {
