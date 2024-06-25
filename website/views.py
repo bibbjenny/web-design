@@ -68,7 +68,7 @@ def quiz(id):
 def resources():
     return render_template('resources.html')
 
-@views.route('/forum/<id>/', methods=['GET', 'POST']) # 1.
+@views.route('/forum/<id>/', methods=['GET', 'POST']) 
 def forum(id):
     if id == 'home': # shows list of posts with their titles
        sql = 'SELECT * FROM forum_posts;'
@@ -135,11 +135,21 @@ def forum(id):
         comment_data = query_db(sql_comment, (id,))
         # comID 0, userID 1, postID 2, content 3, date 4, username 5
 
-        return render_template('forum.html', title = post_data[0],
+        return render_template('forum.html', id = id,
+        title = post_data[0],
         content = post_data[1],
         date = post_data[2],
         username = post_data[3],
         profile_pic = post_data[4], comments = comment_data)
     
-# @views.route('/comments/<id>', methods=['GET', 'POST'])
-# def comments(id):
+@views.route('/comments/<id>/', methods=['GET', 'POST']) 
+def comments(id):
+    if id == 'create': 
+        if request.method == 'POST': # create new comment
+            user = session.get('user')
+            # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+            comment = request.form.get('comment')
+            postID = request.form.get('postID')
+            sql = 'INSERT INTO comments (userID, postID, content) VALUES (?, ?, ?);'
+            query_db(sql, (user[0], postID, comment))
+            return redirect(url_for('views.forum', id=id))

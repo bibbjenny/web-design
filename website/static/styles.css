@@ -2,6 +2,10 @@
     background-color: #faf3f2; 
 }
 
+
+
+/* ----------- link ----------- */
+
 .custom-link {
     color: black;
     text-decoration: none;
@@ -12,13 +16,21 @@
     text-decoration: none;
 }
 
-.navbar {
-    border-bottom:2px solid #aba3a3;
+.custom-link-underline {
+  color: rgb(150, 150, 150);
+  text-decoration: none;
 }
 
-.date {
-    text-align: right;
-    color: rgb(170, 170, 170)
+.custom-link-underline:hover {
+    color: #79aeac; 
+}
+
+
+
+/* ----------- comment ----------- */
+
+.hidden {
+  display: none;
 }
 
 .comment {
@@ -27,23 +39,76 @@
 
 .comment-btn {
     padding: 10px 20px;
-    background-color: rgb(192, 181, 181);
-    color: white;
+    background-color: #faf3f2;
+    color: grey;
     border: none;
     cursor: pointer;
     border-radius: 15px;
+    border-bottom :rgba(45, 35, 66, 0.3); 
     font-family: "JetBrains Mono",monospace;
 }
 
 .submit-comment {
-  padding: 5px 10px;
-  background-color: white;
-  color: rgb(192, 181, 181);
-  text-align: right;
+    padding: 5px 10px;
+    background-color: white;
+    color: rgb(192, 181, 181);
+    text-align: right;
+    border: none;
+    border-radius: 12px;
+    font-family: "JetBrains Mono",monospace;
+    font-size: 16px;
+}
+
+.comment-box {
+    margin-top: 10px;
+}
+
+
+
+/* ----------- DOT BTN ----------- */
+
+.dot-btn {
+  background: none;
   border: none;
-  border-radius: 12px;
-  font-family: "JetBrains Mono",monospace;
-  font-size: 16px;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+.dot-btn .dots {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.dot-btn .dots span {
+  display: block;
+  width: 4px;
+  height: 4px;
+  background-color: black;
+  border-radius: 50%;
+  margin: 2px 0;
+}
+
+
+
+/* ----------- extra ----------- */
+
+.inline {
+  display: inline;
+  }
+
+.navbar {
+  border-bottom:2px solid #aba3a3;
+}
+
+.date {
+  text-align: right;
+  color: rgb(170, 170, 170)
 }
 
 textarea {

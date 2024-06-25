@@ -1,0 +1,24 @@
+<div class="container mt-5 inline">
+    <div class="dropdown" align="right">
+        <button class="dot-btn" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            {% if session.get('user') %}
+                {% if session['user'][0] == comment[1] %}
+                    <a class="dropdown-item custom-link" href="url_for('views.forum', id = 'delete-comment', comID = comment[1])">Delete comment</a>
+                    <a class="dropdown-item custom-link" href="url_for('views.forum', id = 'edit-comment', comID = comment[1])">Edit comment</a>
+                {% else %}
+                    <a class="dropdown-item custom-link" href="url_for('views.forum', id = 'report-comment', comID = comment[1])">Report comment</a>
+                {% endif %}
+            {% else %}
+                <a class="dropdown-item custom-link" href="{{ url_for('auth.login') }}">Login required for further actions</a>            
+            {% endif %}
+        </div>
+    </div>
+</div>
