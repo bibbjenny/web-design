@@ -20,12 +20,11 @@
     {% if 'user' in session %}
         <button class="comment-btn" onclick="document.getElementById('commentBox').classList.toggle('hidden');">Add your comment...</button>
         <div id="commentBox" class="comment-box hidden">
-            <form method="POST" action="{{ url_for('views.comments', id='create') }}">
+            <form method="POST" action="{{ url_for('views.forum', id=id) }}">
                 <textarea 
                 name="comment"
                 id="comment"
                 placeholder="Write your comment here..."></textarea><br>
-                <input type="hidden" name="postID" value={{id}}>
                 <button type="submit" class="submit-comment">Submit Comment</button>
             </form>
         </div>
