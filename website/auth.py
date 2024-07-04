@@ -59,7 +59,7 @@ def logout():
         return redirect(url_for('auth.login'))
         
 @auth.route('/sign-up', methods=['GET', 'POST'])
-def sign_up():
+def signup():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         email = str(request.form.get('email')) # near "@gmail": syntax error
