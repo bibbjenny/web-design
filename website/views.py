@@ -111,53 +111,61 @@ def forum(id):
                 if id: # id has to be the next number of the last post
                     new_id = 1+ int(id[0])
                 else: # if no posts exist, id has to be 1
-                    new_id = 1  
-                sql = 'INSERT INTO forum_posts (postID, userID, title, content) VALUES (?, ?, ?, ?);'
-                query_db(sql, (new_id, userID, title, content), one=True)
-                flash('Post successfully created!', category="success")
-                return redirect(url_for('views.forum', id = new_id ))
+                    new_id = 1
+                    sql = 'INSERT INTO forum_posts (postID, userID, title, content) VALUES (?, ?, ?, ?);'
+                    query_db(sql, (new_id, userID, title, content), one=True)
+                    flash('Post successfully created!', category="success")
+                    return redirect(url_for('views.forum', id = new_id ))
             else:
                 flash('Login is required', category='error')
                 return redirect(url_for('auth.login'))
     
     elif id == 'edit':
         if request.method == 'GET':
-
-            post_userID = int(request.form.get("post_userID"))
-            session['post_userID'] = post_userID
-
             postID = int(request.form.get("postID"))
-            session['postID'] = postID
+            session['postID'] = postID # store postID temporarily
+            sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
+            post_data = query_db(sql, (postID,), one=True)
+            if post_data != None:
+                session['current_post_data'] = post_data
+                # 0 postID, 1 userID, 2 title, 3 content, 4 date
+                return render_template('forumCreate.html', title=post_data[2], content=post_data[3])
+            else:
+                flash("Post not available", category='error')
+                return redirect(url_for('views.forum', id='home'))
+            
+        elif request.method == "POST":
+            post_userID = session['current_post_data'][1]
+            postID = session['postID']
 
             sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
             post_data = query_db(sql, (postID,), one=True)
-            # 0 postID, 1 userID, 2 title, 3 content, 4 date
-            return render_template('forumCreate.html', title=post_data[2], content=post_data[3])
-        elif request.method == "POST":
-            post_userID = session['post_userID']
-            postID = session['postID']
-            if 'user' in session: # double check if user is logged in
-                userID = session['user'][0]
-                # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                if userID == post_userID: # check if the user wrote this post
-                    title = request.form.get('title')
-                    content = request.form.get('content')
-                    if not title: # needs title
-                        flash('Title can\'t be empty', category='error')
-                        return render_template('forumCreate.html', content=content)
-                    if not content: # needs content
-                        flash('Content can\'t be empty', category='error')
-                        return render_template('forumCreate.html', title=title)
-                    sql = 'UPDATE forum_posts SET title = ?, content = ? WHERE postID = ?;'
-                    query_db(sql, (title, content, postID,))
-                    flash('Post updated', category='success')
-                    return redirect(url_for('views.forum', id=postID))
+            if post_data != None:
+                if 'user' in session: # double check if user is logged in
+                    userID = session['user'][0]
+                    # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+                    if userID == post_userID: # check if the user wrote this post
+                        title = request.form.get('title')
+                        content = request.form.get('content')
+                        if not title: # needs title
+                            flash('Title can\'t be empty', category='error')
+                            return render_template('forumCreate.html', content=content)
+                        if not content: # needs content
+                            flash('Content can\'t be empty', category='error')
+                            return render_template('forumCreate.html', title=title)
+                        sql = 'UPDATE forum_posts SET title = ?, content = ? WHERE postID = ?;'
+                        query_db(sql, (title, content, postID,))
+                        flash('Post updated', category='success')
+                        return redirect(url_for('views.forum', id=postID))
+                    else:
+                        flash('Access denied', category='error')
+                        return redirect(url_for('views.forum', id=postID))
                 else:
-                    flash('Access denied', category='error')
-                    return redirect(url_for('views.forum', id=postID))
+                    flash('Login required', category='error')
+                    return redirect(url_for('auth.login'))
             else:
-                flash('Login required', category='error')
-                return redirect(url_for('auth.login'))
+                flash("Post not available", category='error')
+                return redirect(url_for('views.forum', id='home'))
     
     else:
         # id = forum_posts.postID
@@ -198,7 +206,7 @@ def delete(id):
             userID = session['user'][0]
             # 0 id, 1 email, 2 username, 3 password, 4 profile pic
             post_userID = int(request.form.get('post_userID'))
-            postID = request.form.get('postID')
+            postID = int(request.form.get('postID'))
             if userID == post_userID:
                 sql = 'DELETE FROM forum_posts WHERE postID = ?;'
                 query_db(sql, postID)
