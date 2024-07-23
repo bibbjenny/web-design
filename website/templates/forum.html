@@ -4,7 +4,7 @@
 
 <br><br>
 <h1>{{ title }}</h1>
-{% include "dotPost.html" %}
+{% include "dotPost.html" with context %}
 <p class="date">{{ date }}</p>
 
 <br>
@@ -13,6 +13,7 @@
 
 <br><br>
 
+<!-- COMMENTS -->
 <div style='border-top:2px solid #aba3a3'>
     <br>
     <h5>Comments</h5>
@@ -21,6 +22,7 @@
     
 
     <div>
+        <!-- CREATE COMMENT -->
         <ul class="list-group list-group-flush" id="comments">
             <li class="list-group-item custom-bg comment">
                 {% if 'user' in session %}
@@ -41,7 +43,8 @@
                     <br><br>
             </li>
 
-            <!-- comID 0, userID 1, postID 2, content 3, date 4, username 5 -->
+            <!-- VIEW COMMENT -->
+            <!-- in comments = comID 0, userID 1, postID 2, content 3, date 4, username 5 -->
             {% for comment in comments %}
             <li class="list-group-item custom-bg comment">
                 <p class="inline" style="color: rgb(174, 158, 158)">{{ comment[5] }}</p>

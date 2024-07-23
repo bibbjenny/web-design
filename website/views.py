@@ -121,15 +121,14 @@ def forum(id):
                     return redirect(url_for('auth.login'))
         
         elif id == 'edit':
-            post_userID = int(request.form.get('post_userID'))
-            postID = int(request.form.get('postID'))
             if request.method == 'GET':
                 sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
                 post_data= query_db(sql, (postID,), one=True)
-                print(post_data)
                 # 0 postID, 1 userID, 2 title, 3 content, 4 date
                 return render_template('forumCreate.html', title=post_data[2], content=post_data[3])
             elif request.method == "POST":
+                post_userID = int(request.form.get('post_userID'))
+                postID = int(request.form.get('postID'))
                 if 'user' in session: # double check if user is logged in
                     userID = session['user'][0]
                     # 0 id, 1 email, 2 username, 3 password, 4 profile pic
