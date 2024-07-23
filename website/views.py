@@ -4,7 +4,7 @@ import sqlite3
 views = Blueprint('views', __name__)
 
 
-def query_db(sql,args=(),one=False):
+def query_db(sql, args=(), one=False):
     '''connect and query- will retun one item if one=true and can accept arguments as tuple'''
     db = sqlite3.connect('web.db')
     cursor = db.cursor()
@@ -16,8 +16,8 @@ def query_db(sql,args=(),one=False):
 
 
 @views.route('/')
-def home():
-    return render_template("home.html")
+def index():
+    return render_template("index.html")
 
 
 @views.route('/quiz/<id>/', methods=['GET', 'POST'])
@@ -33,11 +33,11 @@ def quiz(id):
         if request.method == "GET":
             # get quiz data, store in quiz_item
             sql = 'SELECT * FROM quiz WHERE quizID = ?;'
-            quiz_item = query_db(sql, (id,), one = True)
+            quiz_item = query_db(sql, (id,), one=True)
         
             if not quiz_item:
-                    flash('No more questions availaible', category='error')
-                    return redirect(url_for('views.home'))
+                flash('No more questions availaible', category='error')
+                return redirect(url_for('views.index'))
             
             # Render the template with the question
             return render_template('quiz.html', question=quiz_item[1], id=id)
@@ -45,11 +45,11 @@ def quiz(id):
         elif request.method == 'POST':
             # get quiz data, store in quiz_item
             sql = 'SELECT * FROM quiz WHERE quizID = ?;'
-            quiz_item = query_db(sql, (id,), one = True)
+            quiz_item = query_db(sql, (id,), one=True)
             
             if not quiz_item:
                 flash('No more questions availaible', category='error')
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.index'))
                 
             user_answer = request.form.get('user_answer')
             answer = quiz_item[3]
@@ -65,7 +65,7 @@ def quiz(id):
                     return redirect(url_for('views.quiz', id='finish'))
             else:
                 flash('Incorrect answer. Please try again.', category='error')
-                return render_template('quiz.html', question = quiz_item[1], id = id)
+                return render_template('quiz.html', question=quiz_item[1], id=id)
 
 
 @views.route('/resources/')
@@ -76,28 +76,70 @@ def resources():
 @views.route('/forum/<id>/', methods=['GET', 'POST'])
 def forum(id):
     # if action_comment and commentID is None: #not adjusting comments
-        if id == 'home': # shows list of posts with their titles
-            sql = 'SELECT * FROM forum_posts;'
-            posts = query_db(sql)
-            # 0=id, 1=userID, 2=title, 3=content, 4=date
-            if posts: #check if any posts exsist
-                return render_template('forumHome.html', posts=posts)
+    if id == 'home':  # shows list of posts with their titles
+        sql = 'SELECT * FROM forum_posts;'
+        posts = query_db(sql)
+        # 0=id, 1=userID, 2=title, 3=content, 4=date
+        if posts:  # check if any posts exsist
+            return render_template('forumHome.html', posts=posts)
+        else:
+            return render_template('forumHome.html', posts='No posts are currently available')
+    
+    elif id == 'create':
+        if request.method == 'GET':
+            user = session.get('user')
+            if user:  # check if user is logged in
+                return render_template('forumCreate.html')
             else:
-                return render_template('forumHome.html', posts='No posts are currently available')
-        
-        elif id == 'create':
-            if request.method == 'GET':
-                user = session.get('user')
-                if user: # check if user is logged in
-                    return render_template('forumCreate.html')
-                else:
-                    flash('Login is required', category='error')
-                    return redirect(url_for('auth.login'))
-            elif request.method == 'POST':
-                user = session.get('user')
+                flash('Login is required', category='error')
+                return redirect(url_for('auth.login'))
+        elif request.method == 'POST':
+            user = session.get('user')
+            # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+            if user:  # check if user is logged in
+                userID = user[0]
+                title = request.form.get('title')
+                content = request.form.get('content')
+                if not title: # needs title
+                    flash('Title can\'t be empty', category='error')
+                    return render_template('forumCreate.html', content=content)
+                if not content: # needs content
+                    flash('Content can\'t be empty', category='error')
+                    return render_template('forumCreate.html', title=title)
+                sql2 = 'SELECT postID FROM forum_posts ORDER BY postID DESC Limit 1;'
+                id = query_db(sql2, (), one=True)
+                if id: # id has to be the next number of the last post
+                    new_id = 1+ int(id[0])
+                else: # if no posts exist, id has to be 1
+                    new_id = 1  
+                sql = 'INSERT INTO forum_posts (postID, userID, title, content) VALUES (?, ?, ?, ?);'
+                query_db(sql, (new_id, userID, title, content), one=True)
+                flash('Post successfully created!', category="success")
+                return redirect(url_for('views.forum', id = new_id ))
+            else:
+                flash('Login is required', category='error')
+                return redirect(url_for('auth.login'))
+    
+    elif id == 'edit':
+        if request.method == 'GET':
+
+            post_userID = int(request.form.get("post_userID"))
+            session['post_userID'] = post_userID
+
+            postID = int(request.form.get("postID"))
+            session['postID'] = postID
+
+            sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
+            post_data = query_db(sql, (postID,), one=True)
+            # 0 postID, 1 userID, 2 title, 3 content, 4 date
+            return render_template('forumCreate.html', title=post_data[2], content=post_data[3])
+        elif request.method == "POST":
+            post_userID = session['post_userID']
+            postID = session['postID']
+            if 'user' in session: # double check if user is logged in
+                userID = session['user'][0]
                 # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                if user: # check if user is logged in
-                    userID = user[0]
+                if userID == post_userID: # check if the user wrote this post
                     title = request.form.get('title')
                     content = request.form.get('content')
                     if not title: # needs title
@@ -106,82 +148,47 @@ def forum(id):
                     if not content: # needs content
                         flash('Content can\'t be empty', category='error')
                         return render_template('forumCreate.html', title=title)
-                    sql2 = 'SELECT postID FROM forum_posts ORDER BY postID DESC Limit 1;'
-                    id = query_db(sql2, (), one=True)
-                    if id: # id has to be the next number of the last post
-                        new_id = 1+ int(id[0])
-                    else: # if no posts exist, id has to be 1
-                        new_id = 1  
-                    sql = 'INSERT INTO forum_posts (postID, userID, title, content) VALUES (?, ?, ?, ?);'
-                    query_db(sql, (new_id, userID, title, content), one=True)
-                    flash('Post successfully created!', category="success")
-                    return redirect(url_for('views.forum', id = new_id ))
+                    sql = 'UPDATE forum_posts SET title = ?, content = ? WHERE postID = ?;'
+                    query_db(sql, (title, content, postID,))
+                    flash('Post updated', category='success')
+                    return redirect(url_for('views.forum', id=postID))
                 else:
-                    flash('Login is required', category='error')
-                    return redirect(url_for('auth.login'))
-        
-        elif id == 'edit':
-            if request.method == 'GET':
-                sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
-                post_data= query_db(sql, (postID,), one=True)
-                # 0 postID, 1 userID, 2 title, 3 content, 4 date
-                return render_template('forumCreate.html', title=post_data[2], content=post_data[3])
-            elif request.method == "POST":
-                post_userID = int(request.form.get('post_userID'))
-                postID = int(request.form.get('postID'))
-                if 'user' in session: # double check if user is logged in
-                    userID = session['user'][0]
-                    # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                    if userID == post_userID: # check if the user wrote this post
-                        title = request.form.get('title')
-                        content = request.form.get('content')
-                        if not title: # needs title
-                            flash('Title can\'t be empty', category='error')
-                            return render_template('forumCreate.html', content=content)
-                        if not content: # needs content
-                            flash('Content can\'t be empty', category='error')
-                            return render_template('forumCreate.html', title=title)
-                        sql = 'UPDATE forum_posts SET title = ?, content = ? WHERE postID = ?;'
-                        query_db(sql, (title, content, postID,))
-                        flash('Post updated', category='success')
-                        return redirect(url_for('views.forum', id=postID))
-                    else:
-                        flash('Access denied', category='error')
-                        return redirect(url_for('views.forum', id=postID))
-                else:
-                    flash('Login required', category='error')
-                    return redirect(url_for('auth.login'))
-        
-        else:
-            # id = forum_posts.postID
-            id = int(id)
+                    flash('Access denied', category='error')
+                    return redirect(url_for('views.forum', id=postID))
+            else:
+                flash('Login required', category='error')
+                return redirect(url_for('auth.login'))
+    
+    else:
+        # id = forum_posts.postID
+        id = int(id)
 
-            # GRAB POST
-            sql_post = '''SELECT f.title, f.content, f.post_date, u.username, u.userID, u.profile_pic
-            FROM user u
-            LEFT JOIN forum_posts f on u.userID = f.userID
-            WHERE f.postID = ?;'''
-            post_data = query_db(sql_post, (id,), one=True)
-            # title 0, content 1, date 2, username 3, userID 4, profile_pic 5
-            if not post_data: # post doesn't exist
-                flash('Post not available.', category='error')
-                return redirect(url_for('views.forum', id = 'home'))
+        # GRAB POST
+        sql_post = '''SELECT f.title, f.content, f.post_date, u.username, u.userID, u.profile_pic
+        FROM user u
+        LEFT JOIN forum_posts f on u.userID = f.userID
+        WHERE f.postID = ?;'''
+        post_data = query_db(sql_post, (id,), one=True)
+        # title 0, content 1, date 2, username 3, userID 4, profile_pic 5
+        if not post_data: # post doesn't exist
+            flash('Post not available.', category='error')
+            return redirect(url_for('views.forum', id = 'home'))
 
-            # GRAB COMMENTS
-            sql_comment = '''SELECT c.*, u.username
-            FROM comments c
-            LEFT JOIN user u ON c.userID = u.userID
-            WHERE c.postID = ?;'''
-            comment_data = query_db(sql_comment, (id,))
-            # comID 0, userID 1, postID 2, content 3, date 4, username 5
+        # GRAB COMMENTS
+        sql_comment = '''SELECT c.*, u.username
+        FROM comments c
+        LEFT JOIN user u ON c.userID = u.userID
+        WHERE c.postID = ?;'''
+        comment_data = query_db(sql_comment, (id,))
+        # comID 0, userID 1, postID 2, content 3, date 4, username 5
 
-            return render_template('forum.html', id = id,
-            title = post_data[0],
-            content = post_data[1],
-            date = post_data[2],
-            username = post_data[3],
-            userID = post_data[4],
-            profile_pic = post_data[5], comments = comment_data)
+        return render_template('forum.html', id = id,
+        title = post_data[0],
+        content = post_data[1],
+        date = post_data[2],
+        username = post_data[3],
+        userID = post_data[4],
+        profile_pic = post_data[5], comments = comment_data)
 
 
 @views.route('/delete/<id>', methods = ['POST'])

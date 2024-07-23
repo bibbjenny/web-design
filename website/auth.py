@@ -40,7 +40,7 @@ def login():
                 flash('Logged in successfully', category='success')
                 # store userdata
                 session['user'] = user
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.index'))
             else: 
                 flash('Invalid username and/or password', category='error')
         else:
@@ -53,7 +53,7 @@ def logout():
     if 'user' in session:
         session.pop('user', None)
         flash('Logged out successfully')
-        return redirect(request.referrer or url_for('views.home'))
+        return redirect(request.referrer or url_for('views.index'))
     else:
         flash('You are not logged in', category='error')
         return redirect(url_for('auth.login'))
