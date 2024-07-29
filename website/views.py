@@ -28,7 +28,7 @@ def quiz(id):
         # how to make user not able to access this page unless finished quiz?
         # get rid of this route and make it only accessable by return render_template?
         return render_template('quizFinish.html')
-    else:   
+    else:
         id = int(id)
         if request.method == "GET":
             # get quiz data, store in quiz_item
@@ -121,7 +121,7 @@ def forum(id):
                 return redirect(url_for('auth.login'))
     
     elif id == 'edit':
-        if request.method == 'GET':
+        if request.method == 'POST':
             postID = int(request.form.get("postID"))
             session['postID'] = postID # store postID temporarily
             sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
@@ -190,7 +190,7 @@ def forum(id):
         comment_data = query_db(sql_comment, (id,))
         # comID 0, userID 1, postID 2, content 3, date 4, username 5
 
-        return render_template('forum.html', id = id,
+        return render_template('forum.html', postID = id,
         title = post_data[0],
         content = post_data[1],
         date = post_data[2],
@@ -198,6 +198,9 @@ def forum(id):
         userID = post_data[4],
         profile_pic = post_data[5], comments = comment_data)
 
+# @views.route('/edit/<id>', methods = ['POST'])
+# def delete(edit):
+    
 
 @views.route('/delete/<id>', methods = ['POST'])
 def delete(id):

@@ -17,10 +17,7 @@
 <div style='border-top:2px solid #aba3a3'>
     <br>
     <h5>Comments</h5>
-
     <br>
-    
-
     <div>
         <!-- CREATE COMMENT -->
         <ul class="list-group list-group-flush" id="comments">
@@ -29,7 +26,7 @@
                         <button class="comment-btn" onclick="document.getElementById('commentBox').classList.toggle('hidden');">▶ Click to add your comment...</button>
                         <div id="commentBox" class="comment-box hidden">
                             <form method="POST" action="{{ url_for('views.comments', id='create') }}">
-                                <input type="hidden" name="postID" value="{{ id }}">
+                                <input type="hidden" name="postID" value="{{ postid }}">
                                 <textarea 
                                 name="comment"
                                 id="comment"

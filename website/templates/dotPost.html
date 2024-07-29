@@ -12,14 +12,14 @@
             {% if session.get('user') %}
                 {% if session['user'][0] == userID %}
                 <!-- EDIT -->
-                    <form action="{{ url_for('views.forum', id='edit') }}" method="GET">
-                        <input type="hidden" name="postID" value="{{ id }}">
+                    <form action="{{ url_for('views.forum', id='edit') }}" method="POST">
+                        <input type="hidden" name="postID" value="{{ postid }}">
                         <input class="dropdown-item custom-link" type="submit" value="Edit post">
                     </form>
                 <!-- DELETE -->
                     <form action="{{ url_for('views.delete', id='post') }}" method="POST">
                         <input type="hidden" name="post_userID" value="{{ userID }}">
-                        <input type="hidden" name="postID" value="{{ id }}">
+                        <input type="hidden" name="postID" value="{{ postid }}">
                         <input class="dropdown-item custom-link" type="submit" value="Delete post">
                     </form>
                 {% else %}
