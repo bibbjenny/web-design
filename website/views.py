@@ -120,53 +120,6 @@ def forum(id):
                 flash('Login is required', category='error')
                 return redirect(url_for('auth.login'))
     
-    elif id == 'edit':
-        if request.method == 'POST':
-            postID = int(request.form.get("postID"))
-            session['postID'] = postID # store postID temporarily
-            sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
-            post_data = query_db(sql, (postID,), one=True)
-            if post_data != None:
-                session['current_post_data'] = post_data
-                # 0 postID, 1 userID, 2 title, 3 content, 4 date
-                return render_template('forumCreate.html', title=post_data[2], content=post_data[3])
-            else:
-                flash("Post not available", category='error')
-                return redirect(url_for('views.forum', id='home'))
-            
-        elif request.method == "POST":
-            post_userID = session['current_post_data'][1]
-            postID = session['postID']
-
-            sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
-            post_data = query_db(sql, (postID,), one=True)
-            if post_data != None:
-                if 'user' in session: # double check if user is logged in
-                    userID = session['user'][0]
-                    # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                    if userID == post_userID: # check if the user wrote this post
-                        title = request.form.get('title')
-                        content = request.form.get('content')
-                        if not title: # needs title
-                            flash('Title can\'t be empty', category='error')
-                            return render_template('forumCreate.html', content=content)
-                        if not content: # needs content
-                            flash('Content can\'t be empty', category='error')
-                            return render_template('forumCreate.html', title=title)
-                        sql = 'UPDATE forum_posts SET title = ?, content = ? WHERE postID = ?;'
-                        query_db(sql, (title, content, postID,))
-                        flash('Post updated', category='success')
-                        return redirect(url_for('views.forum', id=postID))
-                    else:
-                        flash('Access denied', category='error')
-                        return redirect(url_for('views.forum', id=postID))
-                else:
-                    flash('Login required', category='error')
-                    return redirect(url_for('auth.login'))
-            else:
-                flash("Post not available", category='error')
-                return redirect(url_for('views.forum', id='home'))
-    
     else:
         # id = forum_posts.postID
         id = int(id)
@@ -198,9 +151,59 @@ def forum(id):
         userID = post_data[4],
         profile_pic = post_data[5], comments = comment_data)
 
-# @views.route('/edit/<id>', methods = ['POST'])
-# def delete(edit):
-    
+@views.route('/edit/<id>', methods = ['GET', 'POST'])
+def edit(id):
+    if request.method == 'GET':
+        if 'user' in session: 
+            # double check if user is logged in
+            userID = session['user'][0]
+            # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+            postID = int(id)
+            sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
+            post_data = query_db(sql, (postID,), one=True)
+            # 0 postID, 1 userID, 2 title, 3 content, 4 date  
+            if post_data != None: 
+                # check if post exsits
+                if post_data[1] == userID:
+                    # check if user wrote this post
+                    return render_template('forumCreate.html', postID=postID, title=post_data[2], content=post_data[3])
+                else:
+                    flash("Access denied", category='error')
+                    return redirect(url_for('views.forum', id=postID))
+            else:
+                flash("Post not available", category='error')
+                return redirect(url_for('views.forum', id='home'))
+            
+    elif request.method == "POST":
+        postID = request.form.get('postID')
+        sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
+        post_data = query_db(sql, (postID,), one=True)
+        if post_data != None:
+            if 'user' in session: # double check if user is logged in
+                userID = session['user'][0]
+                # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+                if userID == post_userID: # check if the user wrote this post
+                    title = request.form.get('title')
+                    content = request.form.get('content')
+                    if not title: # needs title
+                        flash('Title can\'t be empty', category='error')
+                        return render_template('forumCreate.html', content=content)
+                    if not content: # needs content
+                        flash('Content can\'t be empty', category='error')
+                        return render_template('forumCreate.html', title=title)
+                    sql = 'UPDATE forum_posts SET title = ?, content = ? WHERE postID = ?;'
+                    query_db(sql, (title, content, postID,))
+                    flash('Post updated', category='success')
+                    return redirect(url_for('views.forum', id=postID))
+                else:
+                    flash('Access denied', category='error')
+                    return redirect(url_for('views.forum', id=postID))
+            else:
+                flash('Login required', category='error')
+                return redirect(url_for('auth.login'))
+        else:
+            flash("Post not available", category='error')
+            return redirect(url_for('views.forum', id='home'))
 
 @views.route('/delete/<id>', methods = ['POST'])
 def delete(id):
