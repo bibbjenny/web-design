@@ -76,11 +76,13 @@ def resources():
 @views.route('/forum/<id>/', methods=['GET', 'POST'])
 def forum(id):
     # if action_comment and commentID is None: #not adjusting comments
-    if id == 'home':  # shows list of posts with their titles
+    if id == 'home':
+        # shows list of posts with their titles
         sql = 'SELECT * FROM forum_posts;'
         posts = query_db(sql)
         # 0=id, 1=userID, 2=title, 3=content, 4=date
-        if posts:  # check if any posts exsist
+        if posts:
+            # check if any posts exsist
             return render_template('forumHome.html', posts=posts)
         else:
             return render_template('forumHome.html', posts='No posts are currently available')
@@ -88,7 +90,8 @@ def forum(id):
     elif id == 'create':
         if request.method == 'GET':
             user = session.get('user')
-            if user:  # check if user is logged in
+            if user:
+                # check if user is logged in
                 return render_template('forumCreate.html')
             else:
                 flash('Login is required', category='error')
@@ -96,7 +99,8 @@ def forum(id):
         elif request.method == 'POST':
             user = session.get('user')
             # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-            if user:  # check if user is logged in
+            if user:
+                # check if user is logged in
                 userID = user[0]
                 title = request.form.get('title')
                 content = request.form.get('content')
@@ -110,6 +114,10 @@ def forum(id):
                 id = query_db(sql2, (), one=True)
                 if id: # id has to be the next number of the last post
                     new_id = 1+ int(id[0])
+                    sql = 'INSERT INTO forum_posts (postID, userID, title, content) VALUES (?, ?, ?, ?);'
+                    query_db(sql, (new_id, userID, title, content), one=True)
+                    flash('Post successfully created!', category="success")
+                    return redirect(url_for('views.forum', id = new_id )) 
                 else: # if no posts exist, id has to be 1
                     new_id = 1
                     sql = 'INSERT INTO forum_posts (postID, userID, title, content) VALUES (?, ?, ?, ?);'
@@ -178,11 +186,12 @@ def edit(id):
         postID = request.form.get('postID')
         sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
         post_data = query_db(sql, (postID,), one=True)
+        # 0 postID, 1 userID, 2 title, 3 content, 4 date 
         if post_data != None:
             if 'user' in session: # double check if user is logged in
                 userID = session['user'][0]
                 # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                if userID == post_userID: # check if the user wrote this post
+                if userID == post_data[1]: # check if the user wrote this post
                     title = request.form.get('title')
                     content = request.form.get('content')
                     if not title: # needs title
@@ -205,26 +214,38 @@ def edit(id):
             flash("Post not available", category='error')
             return redirect(url_for('views.forum', id='home'))
 
-@views.route('/delete/<id>', methods = ['POST'])
-def delete(id):
-    if id == 'post':
-        if 'user' in session: # double check if user is logged in
-            userID = session['user'][0]
-            # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-            post_userID = int(request.form.get('post_userID'))
-            postID = int(request.form.get('postID'))
-            if userID == post_userID:
-                sql = 'DELETE FROM forum_posts WHERE postID = ?;'
-                query_db(sql, postID)
-                flash('Post deleted', category='success')
-                return redirect(url_for('views.forum', id='home'))
+@views.route('/delete/<id>/<subject>', methods = ['POST'])
+def delete(id, subject):
+    if subject == 'post':
+        # deleting post
+        postID = int(id)
+        sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
+        post_data = query_db(sql, (postID,), one=True)
+        # 0 postID, 1 userID, 2 title, 3 content, 4 date
+        if post_data: 
+            # check if post exists
+            if 'user' in session: 
+                # check if user is logged in
+                userID = session['user'][0]
+                # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+                if userID == post_data[1]:
+                    # check if user wrote this post
+                    sql = 'DELETE FROM forum_posts WHERE postID = ?;'
+                    query_db(sql, (postID,))
+                    flash('Post deleted', category='success')
+                    return redirect(url_for('views.forum', id='home'))
+                else:
+                    flash('Access denied', category='error')
+                    return redirect(url_for('views.forum', id=postID))
             else:
-                flash('Access denied', category='error')
-                return redirect(url_for('views.forum', id=postID))
+                flash('Login required', category='error')
+                return redirect(url_for('auth.login'))
         else:
-            flash('Login required', category='error')
-            return redirect(url_for('auth.login'))
-    elif id == 'comment':
+            flash("Post not available", category='error')
+            return redirect(url_for('views.forum', id='home'))
+        
+    elif subject == 'comment':
+        # deleting comment
         if 'user' in session: # double check if user is logged in
             userID = session['user'][0]
             # 0 id, 1 email, 2 username, 3 password, 4 profile pic

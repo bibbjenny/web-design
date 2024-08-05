@@ -2,6 +2,33 @@
     background-color: #faf3f2; 
 }
 
+.inline {
+  display: inline;
+  }
+
+.navbar {
+  border-bottom:2px solid #aba3a3;
+}
+
+.date {
+  color: rgb(170, 170, 170)
+}
+
+textarea {
+  padding: 5px;
+  margin: 4px;
+  border: none;
+  border-width: 2px;
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+}
+
+pre {
+  font-family: inherit; /* Use the same font as the surrounding text */
+  font-size: inherit; /* Use the same font size as the surrounding text */
+  white-space: pre-wrap; /* Preserve line breaks but allow wrapping */
+  margin: 0; /* Remove default margins */
+}
+
 
 
 /* ----------- link ----------- */
@@ -97,26 +124,6 @@
 
 
 /* ----------- extra ----------- */
-
-.inline {
-  display: inline;
-  }
-
-.navbar {
-  border-bottom:2px solid #aba3a3;
-}
-
-.date {
-  color: rgb(170, 170, 170)
-}
-
-textarea {
-  padding: 5px;
-  margin: 4px;
-  border: none;
-  border-width: 2px;
-  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
-}
 
 .button-30 {
   align-items: center;
