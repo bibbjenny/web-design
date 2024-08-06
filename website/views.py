@@ -146,20 +146,12 @@ def createANDedit(action, subject, id=None):
                     if not content: # needs content
                         flash('Content can\'t be empty', category='error')
                         return render_template('forumCreate.html', title=title)
-                    sql2 = 'SELECT postID FROM forum_posts ORDER BY postID DESC Limit 1;'
-                    id = query_db(sql2, (), one=True)
-                    if id: # id has to be the next number of the last post
-                        new_id = 1+ int(id[0])
-                        sql = 'INSERT INTO forum_posts (postID, userID, title, content) VALUES (?, ?, ?, ?);'
-                        query_db(sql, (new_id, userID, title, content), one=True)
-                        flash('Post successfully created!', category="success")
-                        return redirect(url_for('views.forum', id = new_id )) 
-                    else: # if no posts exist, id has to be 1
-                        new_id = 1
-                        sql = 'INSERT INTO forum_posts (postID, userID, title, content) VALUES (?, ?, ?, ?);'
-                        query_db(sql, (new_id, userID, title, content), one=True)
-                        flash('Post successfully created!', category="success")
-                        return redirect(url_for('views.forum', id = new_id ))
+                    
+                    sql= 'INSERT INTO forum_posts (userID, title, content) VALUES (?, ?, ?);'
+                    query_db(sql, (userID, title, content), one=True)
+                    flash('Post successfully created!', category="success")
+                    return redirect(url_for('views.forum', id = new_id )) 
+            
                 else:
                     flash('Login is required', category='error')
                     return redirect(url_for('auth.login'))
