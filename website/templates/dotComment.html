@@ -11,19 +11,13 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
             {% if session.get('user') %}
                 {% if session['user'][0] == comment[1] %}
-                <!-- EDIT -->
-                    <form action="{{ url_for('views.comments', id='edit') }}" method="POST">
-                        <input type="hidden" name="com_userID" value="{{ comment[1] }}">
-                        <input type="hidden" name="postID" value="{{ id }}">
-                        <input type="hidden" name="comID" value="{{ comment[0] }}">
-                        <input class="dropdown-item custom-link" type="submit" value="Edit comment">
+                    <!-- EDIT -->
+                    <form action="{{ url_for('views.createANDedit', action=edit, id=comment[0], subject='comment') }}" method="GET">
+                        <button class="dropdown-item custom-link" type="submit">Edit post</button>
                     </form>
-                <!-- DELETE -->
-                    <form action="{{ url_for('views.delete', id='comment') }}" method="POST">
-                        <input type="hidden" name="com_userID" value="{{ comment[1] }}">
-                        <input type="hidden" name="postID" value="{{ id }}">
-                        <input type="hidden" name="comID" value="{{ comment[0] }}">
-                        <input class="dropdown-item custom-link" type="submit" value="Delete comment">
+                    <!-- DELETE -->
+                    <form action="{{ url_for('views.delete', subject='comment', id=comment[0]) }}" method="POST">
+                        <button class="dropdown-item custom-link" type="submit">Delete post</button> 
                     </form>
                 {% else %}
                 <!-- REPORT -->

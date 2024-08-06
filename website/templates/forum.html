@@ -25,7 +25,7 @@
                 {% if 'user' in session %}
                         <button class="comment-btn" onclick="document.getElementById('commentBox').classList.toggle('hidden');">▶ Click to add your comment...</button>
                         <div id="commentBox" class="comment-box hidden">
-                            <form method="POST" action="{{ url_for('views.comments', id='create') }}">
+                            <form method="POST" action="{{ url_for('views.createANDedit', action='create', subject='comment') }}">
                                 <input type="hidden" name="postID" value="{{ postid }}">
                                 <textarea 
                                 name="comment"
@@ -43,12 +43,24 @@
             <!-- VIEW COMMENT -->
             <!-- in comments = comID 0, userID 1, postID 2, content 3, date 4, username 5 -->
             {% for comment in comments %}
-            <li class="list-group-item custom-bg comment">
-                <p class="inline" style="color: rgb(174, 158, 158)">{{ comment[5] }}</p>
-                <!-- dotMenu -->
-                {% include "dotComment.html" %}
-                <p>{{ comment[3] }}</p>
-            </li>
+                <li class="list-group-item custom-bg comment">
+                    <p class="inline" style="color: rgb(174, 158, 158)">{{ comment[5] }}</p>
+                    <!-- dotMenu -->
+                    {% include "dotComment.html" %}
+                    {% if edit_id and edit_id == comment[0] %}
+                        <form method="POST">
+                            <input type="hidden" name="commentID" value="{{ comment[0] }}">
+                            <input type="hidden" name="userID" value="{{ comment[1] }}">
+                            <input type="hidden" name="postID" value="{{ postID }}">
+                            <textarea name="content" rows="4" cols="50">{{ comment[3] }}</textarea>
+                            <br>
+                            <button type="submit" name="save">Save</button>
+                            <a href="{{ url_for(views.forum, id=postID) }}">Cancel</a>
+                        </form>
+                    {% else %}
+                        <p>{{ comment[3] }}</p>
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
     </div>

@@ -12,7 +12,7 @@
             {% if session.get('user') %}
                 {% if session['user'][0] == userID %}
                 <!-- EDIT -->
-                    <form action="{{ url_for('views.edit', id=postID) }}" method="GET">
+                    <form action="{{ url_for('views.createANDedit', action=edit, id=postID, subject='post') }}" method="GET">
                         <button class="dropdown-item custom-link" type="submit">Edit post</button>
                     </form>
                 <!-- DELETE -->

@@ -4,7 +4,8 @@
 <br>
 <h1 align="center">Posts</h1>
 <br>
-    
+
+<!-- List of posts -->
 <ul class="list-group list-group-flush" id="posts">
     {% for post in posts %}
     <li class="list-group-item custom-bg">
@@ -15,7 +16,7 @@
 
 <br>
 <button type="button" class="btn btn-outline-info">
-    <a href="{{ url_for('views.forum', id='create') }}" class="custom-link">Create new post</a>
+    <a href="{{ url_for('views.createANDedit', action='create', subject='post') }}" class="custom-link">Create new post</a>
 </button>
 
 {% endblock %}
