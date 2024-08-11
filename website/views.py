@@ -150,7 +150,9 @@ def createANDedit(action, subject, id=None):
                     sql= 'INSERT INTO forum_posts (userID, title, content) VALUES (?, ?, ?);'
                     query_db(sql, (userID, title, content), one=True)
                     flash('Post successfully created!', category="success")
-                    return redirect(url_for('views.forum', id = new_id )) 
+                    # sql = 'SELECT postID'
+                    # How to view the written post right after without specifying the ID when creating post?
+                    return redirect(url_for('views.forum', id='home' )) 
             
                 else:
                     flash('Login is required', category='error')
