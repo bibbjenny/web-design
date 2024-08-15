@@ -12,9 +12,8 @@
             {% if session.get('user') %}
                 {% if session['user'][0] == comment[1] %}
                     <!-- EDIT -->
-                    <form action="{{ url_for('views.createANDedit', action='edit', subject='comment') }}" method="POST">
-                        <input type="hidden" name="edit" value="{{ comment[0] }}"> 
-                        <!-- 위에 edit ID, which is equal to commentID -->
+                    <form action="{{ url_for('views.createANDedit', action='edit', subject='comment') }}" method="GET">
+                        <input type="hidden" name="commentID" value="{{ comment[0] }}"> 
                         <input type="hidden" name="postID" value="{{ postID }}">
                         <button class="dropdown-item custom-link" type="submit">Edit comment</button>
                     </form>

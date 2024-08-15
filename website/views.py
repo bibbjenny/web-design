@@ -109,26 +109,13 @@ def forum(id):
         WHERE c.postID = ?;'''
         comment_data = query_db(sql_comment, (id,))
         # comID 0, userID 1, postID 2, content 3, date 4, username 5
-        editID = request.args.get('editID')
-        # if redirecting to post with the editing comment textbox...
-        # ㄴsee editing comment function
-        if editID:
-            return render_template('forum.html', postID = id,
-            title = post_data[0],
-            content = post_data[1],
-            date = post_data[2],
-            username = post_data[3],
-            userID = post_data[4],
-            profile_pic = post_data[5], 
-            comments = comment_data, editID = editID)
-        else: 
-            return render_template('forum.html', postID = id,
-            title = post_data[0],
-            content = post_data[1],
-            date = post_data[2],
-            username = post_data[3],
-            userID = post_data[4],
-            profile_pic = post_data[5], comments = comment_data)
+        return render_template('forum.html', postID = id,
+        title = post_data[0],
+        content = post_data[1],
+        date = post_data[2],
+        username = post_data[3],
+        userID = post_data[4],
+        profile_pic = post_data[5], comments = comment_data)
 
 @views.route('/<action>/<subject>', methods=['GET', 'POST'])
 def createANDedit(action, subject):
@@ -244,70 +231,61 @@ def createANDedit(action, subject):
                     return redirect(url_for('views.forum', id='home'))
         
         # EDIT COMMENT
-        elif subject == 'comment' and request.method == 'POST':
-            if 'edit' in request.form:
-                # This is a request to show the edit form
-                editID = request.form['edit']  
-                postID = request.form['postID']
-                return redirect(url_for('views.forum', id=postID, editID=int(editID)))
-            elif 'save' in request.form:
-                    # This is a request to save the edited comment
-                    comment_id = request.form['comment_id']
-                    new_content = request.form['content']
-                    sql2 = 'UPDATE comments SET content = ? WHERE id = ?'
-                    query_db(sql2, (new_content, comment_id))
-
-            # if request.method == 'GET':
-            #     if 'user' in session: 
-            #         # double check if user is logged in
-            #         userID = session['user'][0]
-            #         postID = request.args.get('postID', type=int)
-            #         sql1 = 'SELECT * FROM forum_posts where postID = ?;'
-            #         post_exist = query_db(sql1, (postID,))
-            #         if post_exist:
-            #             commentID = request.args.get('commentID', type=int)
-            #             sql2 = 'SELECT * FROM comments where comID = ?;'
-            #             comment_data = query_db(sql2, (commentID,), one=True)
-            #             com_userID = comment_data[1]
-            #             if userID == com_userID:
-            #                 content = comment_data[3]
-            #                 return render_template('forumCreate.html', edit_comment=True, content=content)
-            #             else:
-            #                 flash('Access denied', category='error')
-            #                 return redirect(url_for('views.forum', id=postID))
-            #         else:
-            #             flash("Post not available", category='error')
-            #             return redirect(url_for('views.forum', id='home'))
-            #     else:
-            #         flash('Login required', category='error')
-            #         return redirect(url_for('auth.login'))
-            # if request.method == 'POST' and 'save' in request.form:
-            #     if 'user' in session: 
-            #         # double check if user is logged in
-            #         userID = session['user'][0]
-            #         # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-            #         postID = request.form.get('postID')
-            #         sql1 = 'SELECT * FROM post where postID = ?;'
-            #         post_exist = query_db(sql1, (postID,))
-            #         if post_exist:
-            #             comment_userID = request.form.get('userID')
-            #             if userID == comment_userID:
-            #                 # check if current user wrote this comment
-            #                 commentID = request.form.get('commentID')
-            #                 new_content = request.form.get('content')
-            #                 sql2 = 'UPDATE comments SET content = ? WHERE id = ?'
-            #                 query_db(sql2, (new_content, commentID,))
-            #                 flash('Comment saved!', category='success')
-            #                 return redirect(url_for('views.forum', id=postID))
-            #             else:
-            #                 flash('Access denied', category='error')
-            #                 return redirect(url_for('views.forum', id=postID))
-            #         else:
-            #             flash("Post not available", category='error')
-            #             return redirect(url_for('views.forum', id='home'))
-            #     else:
-            #         flash('Login required', category='error')
-            #         return redirect(url_for('auth.login'))
+        elif subject == 'comment':
+            if request.method == 'GET':
+                if 'user' in session: 
+                    # double check if user is logged in
+                    userID = session['user'][0]
+                    postID = request.args.get('postID', type=int)
+                    sql1 = 'SELECT * FROM forum_posts where postID = ?;'
+                    post_exist = query_db(sql1, (postID,))
+                    if post_exist:
+                        commentID = request.args.get('commentID', type=int)
+                        sql2 = 'SELECT * FROM comments where comID = ?;'
+                        comment_data = query_db(sql2, (commentID,), one=True)
+                        com_userID = comment_data[1]
+                        if userID == com_userID:
+                            content = comment_data[3]
+                            return render_template('forumCreate.html', postID = postID, commentID=commentID, edit_comment=True, content=content)
+                        else:
+                            flash('Access denied', category='error')
+                            return redirect(url_for('views.forum', id=postID))
+                    else:
+                        flash("Post not available", category='error')
+                        return redirect(url_for('views.forum', id='home'))
+                else:
+                    flash('Login required', category='error')
+                    return redirect(url_for('auth.login'))
+            if request.method == 'POST':
+                if 'user' in session: 
+                    # double check if user is logged in
+                    userID = session['user'][0]
+                    # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+                    postID = request.form.get('postID')
+                    sql1 = 'SELECT * FROM forum_posts where postID = ?;'
+                    post_exist = query_db(sql1, (postID,))
+                    if post_exist:
+                        commentID = request.form.get('commentID')
+                        sql = 'SELECT * FROM COMMENTS WHERE comID = ?;'
+                        comment_data = query_db(sql, (commentID,), one=True)
+                        # 0 ID, 1 userID, 2 postID, 3 content, 4 com_date
+                        comment_userID = comment_data[1]
+                        if userID == comment_userID:
+                            # check if current user wrote this comment
+                            new_content = request.form.get('content')
+                            sql2 = 'UPDATE comments SET content = ? WHERE comID = ?'
+                            query_db(sql2, (new_content, commentID,))
+                            flash('Comment saved!', category='success')
+                            return redirect(url_for('views.forum', id=postID))
+                        else:
+                            flash('Access denied', category='error')
+                            return redirect(url_for('views.forum', id=postID))
+                    else:
+                        flash("Post not available", category='error')
+                        return redirect(url_for('views.forum', id='home'))
+                else:
+                    flash('Login required', category='error')
+                    return redirect(url_for('auth.login'))
 
 @views.route('/delete/<subject>/<id>', methods = ['POST'])
 def delete(subject, id):

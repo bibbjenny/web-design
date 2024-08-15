@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %} New Post {% endblock %}
+{% extends "base.html" %} {% block title %} Draft {% endblock %}
 
 {% block content %}
 <br>
@@ -16,7 +16,8 @@
     >{{ content }}</textarea>
     <br />
     <input type="hidden" name="postID" value="{{ postID }}">
-    <button type="submit" class="btn btn-primary">Post</button>
+    <input type="hidden" name="commentID" value="{{ commentID }}">
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
 {% else %}
