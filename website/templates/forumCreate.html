@@ -3,19 +3,9 @@
 {% block content %}
 <br>
 
+{% if edit_comment == True %}
 <form method="POST">
     <br />
-    <div class="form-group">
-        <lable for="title"></lable>
-        <input 
-            type="title" 
-            class="form-control" 
-            id="title"
-            name="title"
-            placeholder="Title"
-            value="{{ title }}"
-        >
-    </div>
     <textarea
         name="content" 
         id="content" 
@@ -28,5 +18,32 @@
     <input type="hidden" name="postID" value="{{ postID }}">
     <button type="submit" class="btn btn-primary">Post</button>
 </form>
+
+{% else %}
+    <form method="POST">
+        <br>
+        <div class="form-group">
+            <lable for="title"></lable>
+            <input 
+                type="title" 
+                class="form-control" 
+                id="title"
+                name="title"
+                placeholder="Title"
+                value="{{ title }}">
+        </div>
+        <textarea
+            name="content" 
+            id="content" 
+            class="form-control" 
+            value="{{ content }}"
+            placeholder="Start writing here..."
+            rows="15"
+        >{{ content }}</textarea>
+        <br>
+        <input type="hidden" name="postID" value="{{ postID }}">
+        <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+{% endif %}
 
 {% endblock %}

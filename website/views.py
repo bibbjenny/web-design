@@ -109,17 +109,29 @@ def forum(id):
         WHERE c.postID = ?;'''
         comment_data = query_db(sql_comment, (id,))
         # comID 0, userID 1, postID 2, content 3, date 4, username 5
+        editID = request.args.get('editID')
+        # if redirecting to post with the editing comment textbox...
+        # ㄴsee editing comment function
+        if editID:
+            return render_template('forum.html', postID = id,
+            title = post_data[0],
+            content = post_data[1],
+            date = post_data[2],
+            username = post_data[3],
+            userID = post_data[4],
+            profile_pic = post_data[5], 
+            comments = comment_data, editID = editID)
+        else: 
+            return render_template('forum.html', postID = id,
+            title = post_data[0],
+            content = post_data[1],
+            date = post_data[2],
+            username = post_data[3],
+            userID = post_data[4],
+            profile_pic = post_data[5], comments = comment_data)
 
-        return render_template('forum.html', postID = id,
-        title = post_data[0],
-        content = post_data[1],
-        date = post_data[2],
-        username = post_data[3],
-        userID = post_data[4],
-        profile_pic = post_data[5], comments = comment_data)
-
-@views.route('/<action>/<subject>/<id>', methods = ['GET', 'POST'])
-def createANDedit(action, subject, id=None):
+@views.route('/<action>/<subject>', methods=['GET', 'POST'])
+def createANDedit(action, subject):
     if action == 'create':
         # 1. create post/comment
         # CREATE POST
@@ -159,28 +171,32 @@ def createANDedit(action, subject, id=None):
                     return redirect(url_for('auth.login'))
             
         # CREATE COMMENT
-        elif subject == 'comment' and request.method == 'POST':
-            if 'user' in session: # double check if user is logged in
-                    user = session.get('user')
-                    # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                    comment = request.form.get('comment')
-                    postID = request.form.get('postID')
-                    sql = 'INSERT INTO comments (userID, postID, content) VALUES (?, ?, ?);'
-                    query_db(sql, (user[0], postID, comment))
-                    return redirect(url_for('views.forum', id=postID))
-            else:
-                flash('Login is required', category='error')
-                return redirect(url_for('auth.login'))
+        elif subject == 'comment':
+            if request.method == 'POST':
+                if 'user' in session: 
+                        # double check if user is logged in
+                        user = session.get('user')
+                        # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+                        comment = request.form.get('comment')
+                        postID = request.form.get('postID')
+                        sql = 'INSERT INTO comments (userID, postID, content) VALUES (?, ?, ?);'
+                        query_db(sql, (user[0], postID, comment))
+                        return redirect(url_for('views.forum', id=postID))
+                else:
+                    flash('Login is required', category='error')
+                    return redirect(url_for('auth.login'))
 
     elif action == 'edit':
         # 2. edit post/comment
+        # EDIT POST
         if subject == 'post':
             if request.method == 'GET':
-                if 'user' in session: 
+                if 'user' in session:
                     # double check if user is logged in
+                    postID = request.args.get('postID', type=int)
+                    # fetch query parameter
                     userID = session['user'][0]
                     # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                    postID = int(id)
                     sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
                     post_data = query_db(sql, (postID,), one=True)
                     # 0 postID, 1 userID, 2 title, 3 content, 4 date  
@@ -196,7 +212,7 @@ def createANDedit(action, subject, id=None):
                         flash("Post not available", category='error')
                         return redirect(url_for('views.forum', id='home'))             
             elif request.method == "POST":
-                postID = request.form.get('postID')
+                postID = request.form.get('postID', type=int)
                 sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
                 post_data = query_db(sql, (postID,), one=True)
                 # 0 postID, 1 userID, 2 title, 3 content, 4 date 
@@ -227,30 +243,78 @@ def createANDedit(action, subject, id=None):
                     flash("Post not available", category='error')
                     return redirect(url_for('views.forum', id='home'))
         
-        elif subject == 'comment':
-            if 'user' in session: # double check if user is logged in
-                userID = session['user'][0]
-                # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                if 'save' in request.form:
-                    postID = request.form.get('postID')
-                    comment_userID = request.form.get('userID')
-                    if userID == comment_userID:
-                        # check if current user wrote this comment
-                        commentID = request.form.get('commentID')
-                        new_content = request.form.get('content')
-                        sql = 'UPDATE comments SET content = ? WHERE id = ?'
-                        query_db(sql, (new_content, commentID,))
-                        flash('Comment saved!', category='success')
-                        return redirect(url_for('views.forum', id=postID))
-                    else:
-                        flash('Access denied', category='error')
-                        return redirect(url_for('views.forum', id=postID))
+        # EDIT COMMENT
+        elif subject == 'comment' and request.method == 'POST':
+            if 'edit' in request.form:
+                # This is a request to show the edit form
+                editID = request.form['edit']  
+                postID = request.form['postID']
+                return redirect(url_for('views.forum', id=postID, editID=int(editID)))
+            elif 'save' in request.form:
+                    # This is a request to save the edited comment
+                    comment_id = request.form['comment_id']
+                    new_content = request.form['content']
+                    sql2 = 'UPDATE comments SET content = ? WHERE id = ?'
+                    query_db(sql2, (new_content, comment_id))
 
-@views.route('/delete/<id>/<subject>', methods = ['POST'])
-def delete(id, subject):
+            # if request.method == 'GET':
+            #     if 'user' in session: 
+            #         # double check if user is logged in
+            #         userID = session['user'][0]
+            #         postID = request.args.get('postID', type=int)
+            #         sql1 = 'SELECT * FROM forum_posts where postID = ?;'
+            #         post_exist = query_db(sql1, (postID,))
+            #         if post_exist:
+            #             commentID = request.args.get('commentID', type=int)
+            #             sql2 = 'SELECT * FROM comments where comID = ?;'
+            #             comment_data = query_db(sql2, (commentID,), one=True)
+            #             com_userID = comment_data[1]
+            #             if userID == com_userID:
+            #                 content = comment_data[3]
+            #                 return render_template('forumCreate.html', edit_comment=True, content=content)
+            #             else:
+            #                 flash('Access denied', category='error')
+            #                 return redirect(url_for('views.forum', id=postID))
+            #         else:
+            #             flash("Post not available", category='error')
+            #             return redirect(url_for('views.forum', id='home'))
+            #     else:
+            #         flash('Login required', category='error')
+            #         return redirect(url_for('auth.login'))
+            # if request.method == 'POST' and 'save' in request.form:
+            #     if 'user' in session: 
+            #         # double check if user is logged in
+            #         userID = session['user'][0]
+            #         # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+            #         postID = request.form.get('postID')
+            #         sql1 = 'SELECT * FROM post where postID = ?;'
+            #         post_exist = query_db(sql1, (postID,))
+            #         if post_exist:
+            #             comment_userID = request.form.get('userID')
+            #             if userID == comment_userID:
+            #                 # check if current user wrote this comment
+            #                 commentID = request.form.get('commentID')
+            #                 new_content = request.form.get('content')
+            #                 sql2 = 'UPDATE comments SET content = ? WHERE id = ?'
+            #                 query_db(sql2, (new_content, commentID,))
+            #                 flash('Comment saved!', category='success')
+            #                 return redirect(url_for('views.forum', id=postID))
+            #             else:
+            #                 flash('Access denied', category='error')
+            #                 return redirect(url_for('views.forum', id=postID))
+            #         else:
+            #             flash("Post not available", category='error')
+            #             return redirect(url_for('views.forum', id='home'))
+            #     else:
+            #         flash('Login required', category='error')
+            #         return redirect(url_for('auth.login'))
+
+@views.route('/delete/<subject>/<id>', methods = ['POST'])
+def delete(subject, id):
     if subject == 'post':
         # deleting post
         postID = int(id)
+        # fetch query parameter
         sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
         post_data = query_db(sql, (postID,), one=True)
         # 0 postID, 1 userID, 2 title, 3 content, 4 date
@@ -281,12 +345,15 @@ def delete(id, subject):
         if 'user' in session: # double check if user is logged in
             userID = session['user'][0]
             # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-            com_userID = int(request.form.get('com_userID'))
-            postID = request.form.get('postID')
-            comID = request.form.get('comID')
+            commentID = int(id)
+            sql = 'SELECT * FROM COMMENTS WHERE comID = ?;'
+            comment_data = query_db(sql, (commentID,), one=True)
+            # 0=comID, 1=userID, 2=postID, 3=content ,4=date
+            com_userID = comment_data[1]
+            postID = comment_data[2]
             if userID == com_userID: # check if the user wrote the comment
                 sql = 'DELETE FROM comments WHERE comID = ?;'
-                query_db(sql, comID)
+                query_db(sql, (commentID,))
                 flash('Comment deleted', category='success')
                 return redirect(url_for('views.forum', id=postID))
             else:

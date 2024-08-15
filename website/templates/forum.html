@@ -26,7 +26,7 @@
                         <button class="comment-btn" onclick="document.getElementById('commentBox').classList.toggle('hidden');">▶ Click to add your comment...</button>
                         <div id="commentBox" class="comment-box hidden">
                             <form method="POST" action="{{ url_for('views.createANDedit', action='create', subject='comment') }}">
-                                <input type="hidden" name="postID" value="{{ postid }}">
+                                <input type="hidden" name="postID" value="{{ postID }}">
                                 <textarea 
                                 name="comment"
                                 id="comment"
@@ -45,19 +45,20 @@
             {% for comment in comments %}
                 <li class="list-group-item custom-bg comment">
                     <p class="inline" style="color: rgb(174, 158, 158)">{{ comment[5] }}</p>
-                    <!-- dotMenu -->
-                    {% include "dotComment.html" %}
+                    <!-- if editing comment -->
                     {% if edit_id and edit_id == comment[0] %}
-                        <form method="POST">
+                        <form method="POST" action="{{ url_for('views.createANDedit', action='edit', subject='comment') }}">
                             <input type="hidden" name="commentID" value="{{ comment[0] }}">
-                            <input type="hidden" name="userID" value="{{ comment[1] }}">
                             <input type="hidden" name="postID" value="{{ postID }}">
                             <textarea name="content" rows="4" cols="50">{{ comment[3] }}</textarea>
                             <br>
                             <button type="submit" name="save">Save</button>
-                            <a href="{{ url_for(views.forum, id=postID) }}">Cancel</a>
+                            <a href="{{ url_for('views.forum', id=postID) }}">Cancel</a>
                         </form>
+                    <!-- otherwise, if just viewing comment -->
                     {% else %}
+                        <!-- dotMenu -->
+                        {% include "dotComment.html" %}
                         <p>{{ comment[3] }}</p>
                     {% endif %}
                 </li>

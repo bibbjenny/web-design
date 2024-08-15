@@ -12,12 +12,15 @@
             {% if session.get('user') %}
                 {% if session['user'][0] == comment[1] %}
                     <!-- EDIT -->
-                    <form action="{{ url_for('views.createANDedit', action=edit, id=comment[0], subject='comment') }}" method="GET">
-                        <button class="dropdown-item custom-link" type="submit">Edit post</button>
+                    <form action="{{ url_for('views.createANDedit', action='edit', subject='comment') }}" method="POST">
+                        <input type="hidden" name="edit" value="{{ comment[0] }}"> 
+                        <!-- 위에 edit ID, which is equal to commentID -->
+                        <input type="hidden" name="postID" value="{{ postID }}">
+                        <button class="dropdown-item custom-link" type="submit">Edit comment</button>
                     </form>
                     <!-- DELETE -->
                     <form action="{{ url_for('views.delete', subject='comment', id=comment[0]) }}" method="POST">
-                        <button class="dropdown-item custom-link" type="submit">Delete post</button> 
+                        <button class="dropdown-item custom-link" type="submit">Delete comment</button> 
                     </form>
                 {% else %}
                 <!-- REPORT -->
