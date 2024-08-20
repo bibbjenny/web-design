@@ -197,7 +197,10 @@ def createANDedit(action, subject):
                             return redirect(url_for('views.forum', id=postID))
                     else:
                         flash("Post not available", category='error')
-                        return redirect(url_for('views.forum', id='home'))             
+                        return redirect(url_for('views.forum', id='home'))   
+                else:
+                    flash('Login requered', category='error')
+                    return redirect(url_for('auth.login'))          
             elif request.method == "POST":
                 postID = request.form.get('postID', type=int)
                 sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
@@ -273,7 +276,7 @@ def createANDedit(action, subject):
                         if userID == comment_userID:
                             # check if current user wrote this comment
                             new_content = request.form.get('content')
-                            sql2 = 'UPDATE comments SET content = ? WHERE comID = ?'
+                            sql2 = 'UPDATE comments SET content = ? WHERE comID = ?;'
                             query_db(sql2, (new_content, commentID,))
                             flash('Comment saved!', category='success')
                             return redirect(url_for('views.forum', id=postID))
