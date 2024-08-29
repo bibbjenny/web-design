@@ -200,7 +200,7 @@ def createANDedit(action, subject):
                         return redirect(url_for('views.forum', id='home'))   
                 else:
                     flash('Login requered', category='error')
-                    return redirect(url_for('auth.login'))          
+                    return redirect(url_for('auth.login'))       
             elif request.method == "POST":
                 postID = request.form.get('postID', type=int)
                 sql = 'SELECT * FROM forum_posts WHERE postID = ?;'
