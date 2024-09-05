@@ -401,6 +401,7 @@ main {
 /* ========== Resources ========== */
 .resources-question {
   padding: 110px 0 120px;
+  line-height: 30px;
 }
 
 .resources-banner {
@@ -438,16 +439,23 @@ main {
 
   color: #FFEECD;
   background-color: rgb(255,217,142);
-  font-size: 1.3em;
-
-  width: 240px;
+  font-size: 1.5em;
+  width: 280px;
   height: 60px;
   padding: 10px 20px;
   border-radius: 40px;
-  font-weight: bold;
   cursor: pointer;
+
+  /* text-shadow: h-shadow v-shadow blur-radius color; */
+  text-shadow: 
+  -1.1px 1.1px 0 #000,
+  1.1px 1.1px 0 #000,
+  1.1px -1.1px 0 #000,
+  -1.1px -1.1px 0 #000;
+
+  /* 
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-color: black; */
 }
 
 
