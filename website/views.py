@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, session
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session, abort
 import sqlite3
 
 views = Blueprint('views', __name__)
@@ -18,54 +18,6 @@ def query_db(sql, args=(), one=False):
 @views.route('/')
 def index():
     return render_template("index.html")
-
-
-@views.route('/quiz/<id>/', methods=['GET', 'POST'])
-def quiz(id):
-    if id == 'home':
-        return render_template('quizHome.html')
-    if id == 'finish':
-        # how to make user not able to access this page unless finished quiz?
-        # get rid of this route and make it only accessable by return render_template?
-        return render_template('quizFinish.html')
-    else:
-        id = int(id)
-        if request.method == "GET":
-            # get quiz data, store in quiz_item
-            sql = 'SELECT * FROM quiz WHERE quizID = ?;'
-            quiz_item = query_db(sql, (id,), one=True)
-        
-            if not quiz_item:
-                flash('No more questions availaible', category='error')
-                return redirect(url_for('views.index'))
-            
-            # Render the template with the question
-            return render_template('quiz.html', question=quiz_item[1], id=id)
-            
-        elif request.method == 'POST':
-            # get quiz data, store in quiz_item
-            sql = 'SELECT * FROM quiz WHERE quizID = ?;'
-            quiz_item = query_db(sql, (id,), one=True)
-            
-            if not quiz_item:
-                flash('No more questions availaible', category='error')
-                return redirect(url_for('views.index'))
-                
-            user_answer = request.form.get('user_answer')
-            answer = quiz_item[3]
-            # Check if the user's answer matches the correct answer
-            if user_answer.lower() == answer.lower():
-                next_id = id + 1
-                sql = 'SELECT * FROM quiz WHERE quizID = ?'
-                next_quiz_item = query_db(sql, (next_id,))
-                if next_quiz_item:
-                    return redirect(url_for('views.quiz', id=next_id))
-                else:
-                    flash('Congratulations, you have completed the quiz!')
-                    return redirect(url_for('views.quiz', id='finish'))
-            else:
-                flash('Incorrect answer. Please try again.', category='error')
-                return render_template('quiz.html', question=quiz_item[1], id=id)
 
 
 @views.route('/resources/')
@@ -164,14 +116,21 @@ def createANDedit(action, subject):
                         # double check if user is logged in
                         user = session.get('user')
                         # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                        comment = request.form.get('comment')
+                        content = request.form.get('comment')
                         postID = request.form.get('postID')
+                        if not content:
+                            flash('Comment can not be empty', category='error')
+                            return render_template('forumCreate.html', postID= postID, edit_comment=True)
                         sql = 'INSERT INTO comments (userID, postID, content) VALUES (?, ?, ?);'
-                        query_db(sql, (user[0], postID, comment))
+                        query_db(sql, (user[0], postID, content))
                         return redirect(url_for('views.forum', id=postID))
                 else:
                     flash('Login is required', category='error')
                     return redirect(url_for('auth.login'))
+        
+        else: 
+            # subject is not post or comment
+            abort(404)
 
     elif action == 'edit':
         # 2. edit post/comment
@@ -289,6 +248,13 @@ def createANDedit(action, subject):
                 else:
                     flash('Login required', category='error')
                     return redirect(url_for('auth.login'))
+                
+        else: 
+            # subject is not post or comment
+            abort(404)
+    else:
+        # action is not create or edit
+        abort(404)
 
 @views.route('/delete/<subject>/<id>', methods = ['POST'])
 def delete(subject, id):

@@ -16,7 +16,9 @@
     >{{ content }}</textarea>
     <br />
     <input type="hidden" name="postID" value="{{ postID }}">
-    <input type="hidden" name="commentID" value="{{ commentID }}">
+    {% if commentID %}
+        <input type="hidden" name="commentID" value="{{ commentID }}">
+    {% endif %}
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 

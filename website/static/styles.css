@@ -1,19 +1,222 @@
 body {
-  background-image: url();
-  background-repeat: repeat;
+  /* background-image: url('img/일러스트530-2.png');
+  background-repeat: repeat; */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  color: #2C2D2D;
+}
+
+main {
+  margin-top: 57px; 
+}
+
+
+
+/* ========== Nav bar ========== */
+
+.navbar {
+  /* overflow: hidden;
+  position: fixed;
+  top: 0;
+  z-index: 99; */
+  border-bottom:2px solid #aba3a3;
+  width: 100vw;
+}
+
+
+
+.no-padding {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.no-margin {
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  position: relative;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: bolder;
+}
+
+.button-angular {
+  background-color: transparent;
+  border: solid 1px #0B0B10;
+  padding: 23px 35px;
+  cursor: pointer;
+}
+
+.button-round {
+  background-color: rgba(249, 246, 244, 0.68);
+  border: none;
+  padding: 21px 40px;
+  border-radius: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 1px 5px 3px rgba(0, 0, 0, 0.1);
+}
+
+.border-top-bottom {
+  border-top: solid 1px rgb(255,255,255, 0.5);
+  border-bottom: solid 0.1px rgb(255,255,255, 0.5);
+  padding: 7% 0 3%;
+}
+
+.grey-heading {
+  color: grey;
+}
+
+.text-white {
+  color: white;
+}
+
+
+
+/* ========== Info Center ========== */
+
+#info-center {
+  padding: 10rem 0;
+  color: #692C2C;
+}
+
+#info-center h2 {
+  font-size: 1.8em;
+  padding-left: 6%; 
+  margin-bottom: 70px;
+}
+
+#info-center p {
+  font-size: 0.9rem;
+}
+
+.info-boxes {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.info-box {
+  display: flex;
+  border: 1px solid #5E221A;
+  border-radius: 1%;
+  padding: 1rem;
+  height: 180px;
+  width: 180px;
+  border-width: 4px;
+  padding-bottom: 0px;
+  align-items: center;
+}
+
+.info-link {
+  color: #5E221A;
+  text-decoration: none;
+}
+
+.info-link:hover {
+  color: #9d6e6e;
+  text-decoration: none;
+}
+
+
+/* ========== Fonts ========== */
+.heading-a {
+  font-family: "Lalezar", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.heading-b {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 33px;
+}
+
+.heading-c {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.heading-d {
+  font-family: "Courier Prime", monospace;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -1px;
+}
+
+.heading-e {
+  font-family: "Holtwood One SC", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.heading-i {
+  font-family: "Sen", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.text-b {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 23px;
+}
+
+.text-i {
+  font-family: "Major Mono Display", monospace;
+  font-weight: bolder;
+  font-style: normal;
+}
+
+.button-a {
+  font-family: "Mallanna", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.button-b {
+  font-family: "Modak", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+/* ========== Before ========== */
+
+footer {
+  background-color: #FFD98E;
+  padding: 1rem;
+
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  position: relative;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 .custom-bg {
-    background-color: #faf3f2; 
+    background-color: #F8F6F5; 
 }
 
 .inline {
   display: inline;
   }
-
-.navbar {
-  border-bottom:2px solid #aba3a3;
-}
 
 .date {
   color: rgb(170, 170, 170)
@@ -36,7 +239,220 @@ pre {
 
 
 
-/* ----------- link ----------- */
+/* ========== Home ========== */
+
+/* HERO */
+
+main {
+  align-content: center;  
+  align-items: center;
+}
+
+#home-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFD98E;
+  padding: 8rem;
+  padding-left: 20rem;
+  padding-right: 20rem;
+  line-height: 100%;
+
+}
+
+.home-hero-content {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.reading-girl-image {
+  max-width: 40%;
+  height: auto;
+}
+
+/* BANNER */
+.home-banner {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 180px auto;
+  margin-bottom: 320px;
+  padding: 20px;
+}
+
+.image-container {
+  position: relative;
+  width: 70%;
+  margin-left: -10%;
+}
+
+.i-can-do-it {
+  width: 120%;
+  border: 3px solid #0B0B10;
+}
+
+.tape-border {
+  position: absolute;
+  z-index: 98;
+  top: -30px;
+  left: -60px;
+  width: 130px;
+  height: 55px;
+  background-color: transparent;
+  border: 2px solid #0B0B10;  
+  border-radius: 8px;
+  transform: rotate(-40deg);
+}
+
+.tape {
+  position: absolute;
+  top: -10px;
+  left: -60px;
+  width: 130px;
+  height: 55px;
+  background-color: #79b6b6;
+  border-radius: 8px;
+  transform: rotate(-40deg);
+}
+
+.home-info-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: -150px;
+  right: -20px;
+  width: 56%;
+  height: 60%;
+  font-size: 1em;
+  background-color: #0B0B10;
+  color: #E5EEE8;
+}
+
+.home-info-box-content {
+  width: 350px;
+}
+
+.home-info-box h2 {
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  padding: 0% 4% 0;
+}
+
+.home-info-box h5 {
+  font-size: 0.85em;
+  margin-bottom: 10px;
+  padding-left: 4%;
+}
+
+.home-info-box ul {
+  list-style-type: none;
+  padding-left: 7%;
+
+}
+
+.home-info-box li {
+  font-size: 0.8em;
+  margin-bottom: 5px;
+}
+
+.home-link {
+  color: white;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  color: #79aeac; 
+  text-decoration: none;
+}
+
+/* QUESTIONS? */
+#home-questions {
+  display: flex;
+  height: 420px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(121, 174, 172, 0.7);
+  padding: 2rem;
+  text-align: center;
+
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+#home-questions h2 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  padding: 0% 6% 0;
+}
+
+#home-questions p {
+  font-size: 1.2em;
+  margin-bottom: 40px;
+}
+
+
+
+/* ========== Resources ========== */
+.resources-question {
+  padding: 110px 0 120px;
+}
+
+.resources-banner {
+  position: flex;
+  position: relative;
+  padding: 190px 0 60px;
+  background-color: #79aeac;
+  align-items: center;
+}
+
+.resources-banner-content {
+  text-align: center;
+}
+
+.resources-banner-heading {
+  color: #FFD98E;
+  font-size: 4em;
+  /* text-shadow: h-shadow v-shadow blur-radius color; */
+  text-shadow: 
+  -1px 1px 0 #000,
+  1px 1px 0 #000,
+  1px -1px 0 #000,
+  -1px -1px 0 #000;
+}
+
+.resources-banner p {
+  line-height: 3em;
+}
+
+.learn-more-btn {
+  position: absolute;
+  bottom: -20px; /* 버튼의 절반 높이만큼 아래로 이동 */
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: #FFEECD;
+  background-color: rgb(255,217,142);
+  font-size: 1.3em;
+
+  width: 240px;
+  height: 60px;
+  padding: 10px 20px;
+  border-radius: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+
+
+/* ========== Link ========== */
 
 .custom-link {
     color: black;
@@ -59,7 +475,7 @@ pre {
 
 
 
-/* ----------- comment ----------- */
+/* ========== Comment ========== */
 
 .hidden {
   display: none;
@@ -97,7 +513,7 @@ pre {
 
 
 
-/* ----------- DOT BTN ----------- */
+/* ========== DOT BTN ========== */
 
 .dot-btn {
   background: none;
@@ -128,7 +544,7 @@ pre {
 
 
 
-/* ----------- extra ----------- */
+/* ========== Extra ========== */
 
 .button-30 {
   align-items: center;

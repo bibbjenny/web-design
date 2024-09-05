@@ -28,14 +28,14 @@ def login():
         cursor = db.cursor()
         sql = f'SELECT * FROM user where username = ?;'
         cursor.execute(sql, (username,))
-        userdata = cursor.fetchall()
+        user = cursor.fetchone()
         db.close()
         
         # get user info(0 id, 1 email, 2 username, 3 password, 4 profile pic)
-        user = userdata[0]
         if user: 
             # got a user
             # check password
+            print(user)
             if check_password_hash(user[3], password):
                 flash('Logged in successfully', category='success')
                 # store userdata

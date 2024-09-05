@@ -1,8 +1,68 @@
 {% extends "base.html" %} 
 
-{% block title %} Home {% endblock %}
+{% block title %} Home : BHS Digital technologies Information Centre {% endblock %}
 
 {% block content %}
-<br>
-<h1>This is the home page</h1>
+
+<div id="home-hero" class="no-margin">
+    <div class="home-hero-content">
+        <h1 class="heading-a">Why learn<br>Digital Technologies?</h1>
+        <h4 class="heading-a">What career opportunities does it offer?</h4>
+        <h4 class="heading-a">Where can I learn Digital Technologies?</h4>
+        <br><br>
+        <a href="{{ url_for('views.resources') }}">
+            <button class="button-round button-a">LEARN MORE</button>
+        </a>
+    </div>
+    <!-- website\img\girl-reading.png -->
+    <img src="../static/img/girlreading.png" alt="Girl reading" class="reading-girl-image">
+</div>
+
+<div class="home-banner">
+    <div class="image-container">
+        <img src="../static/img/i-can-do-it.jpg" alt="I can do it!" class="i-can-do-it">
+        <div class="tape-border"></div>
+        <div class="tape"></div>
+    </div>
+    <div class="home-info-box">
+        <div class="home-info-box-content">
+            <h2 class="heading-b">Never too late to<br>start studying<br>Digital technologies!</h2>
+            <div class="border-top-bottom">
+                <h5 class="heading-d">Start studying today! Not sure where to start?</h5>
+                <ul class="text-b">
+                    <li><a href="#" class="home-link">→ Click to see self-learning resources</a></li>
+                    <li><a href="#" class="home-link">→ Click to see courses in Burnside</a></li>
+                    <li><a href="#" class="home-link">→ Click to see career opportunities</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div id="home-questions">
+    <div id="home-questions-item">
+        <h2 class="heading-a">Have any questions?</h2>
+        <p class="heading-a">Come visit our community page and share your questions & knowledge!</p>
+        <a href="{{ url_for('views.forum', id='home') }}">
+            <button class="button-angular button-a">GO TO COMMUNITY</button>
+        </a>
+    </div>
+</div>
+
+<div id="info-center">
+    <h2 class="heading-i">INFORMATION CENTRE</h2>
+    <div class="info-boxes text-i">
+        <div class="info-box">
+            <p><a href="#" class="info-link">career<br>opportunities</a></p>
+        </div>
+        <div class="info-box">
+            <p><a href="#" class="info-link">courses at<br>bhs</a></p>
+        </div>
+        <div class="info-box">
+            <p><a href="#" class="info-link">self-learn<br>resources</a></p>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

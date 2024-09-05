@@ -28,8 +28,8 @@
                             <form method="POST" action="{{ url_for('views.createANDedit', action='create', subject='comment') }}">
                                 <input type="hidden" name="postID" value="{{ postID }}">
                                 <textarea 
-                                name="comment"
-                                id="comment"
+                                name="content"
+                                id="content"
                                 placeholder="Write your comment here..."></textarea><br>
                                 <button type="submit" class="submit-comment">Submit Comment</button>
                             </form>
