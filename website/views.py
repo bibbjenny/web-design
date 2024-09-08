@@ -20,9 +20,22 @@ def index():
     return render_template("index.html")
 
 
-@views.route('/resources/')
-def resources():
-    return render_template('resources.html')
+@views.route('/resources/', defaults={'submenu':None})
+@views.route('/resources/<submenu>')
+def resources(submenu):
+    if submenu == 'career-opportunities':
+        sql = 'SELECT * FROM career_cards;'
+        cards = query_db(sql)
+        return render_template('r-career.html', cards=cards)
+    
+    elif submenu == 'courses-at-burnside':
+        return render_template('r-courses.html')
+    
+    elif submenu == 'self-learn-resources':
+        return render_template('r-self.html')
+    
+    else:
+       return render_template('resources.html')
 
 
 @views.route('/forum/<id>/', methods=['GET', 'POST'])

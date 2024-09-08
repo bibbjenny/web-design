@@ -31,19 +31,47 @@
     </div>    
 </div>
 
-<div id="info-center">
-    <h2 class="heading-i">INFORMATION CENTRE</h2>
-    <div class="info-boxes text-i">
-        <div class="info-box">
-            <p><a href="#" class="info-link">career<br>opportunities</a></p>
+<div class="info-center">
+    <button class="resources-button text-d">Our Resources</button>
+    <br><br>
+    <h2 class="heading-e border-text">Information Centre</h2>
+    <br>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-1.png" alt="Career opportunities">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Career opportunities</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities') }}" class="icon">➜</a>
         </div>
-        <div class="info-box">
-            <p><a href="#" class="info-link">courses at<br>bhs</a></p>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-2.png" alt="Self-learn Resources">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Self-learn Resources</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="icon">➜</a>
         </div>
-        <div class="info-box">
-            <p><a href="#" class="info-link">self-learn<br>resources</a></p>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-3.png" alt="Courses at Burnside">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Courses at Burnside</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="icon">➜</a>
         </div>
     </div>
 </div>
+
 
 {% endblock %}
