@@ -63,6 +63,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=McLaren&display=swap" rel="stylesheet">
     <!-- END FONTS -->
 
     <link rel="stylesheet" href= "{{ url_for('static',filename='styles.css') }}">
@@ -80,10 +84,28 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Resources</a>
+          </li>
+        </ul>
+
         <div class="navbar-nav">
           <a class="nav-item nav-link" id="home" href="/">Home</a>
-          <a class="nav-item nav-link" id="resources" href="/resources">Resources</a>
+          <a class="nav-item nav-link" id="resources" href="/resources/home">Resources</a>
           <a class="nav-item nav-link" id="forum" href="/forum/home">Forum board</a>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
           {% if session.get('user') %}
             <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           {% else %}
@@ -121,7 +143,7 @@
   </div>
   {% endwith %}
 
-  <main class="container custom-bg">
+  <main class="container">
     {% block content %}
     {% endblock %}
   </main>

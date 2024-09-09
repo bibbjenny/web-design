@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block title %} Career opportunities : BHS Digital technologies Information Centre {% endblock %}
+
+{% block content %}
+
+<section class="banner career-banner-img no-margin">
+    <div class="banner-content">
+        <h1 class="heading-f">Career opportunities</h1>
+        <br>
+        <div class="banner-buttons">
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}">
+                <button class="button-angular heading-d">> Digitech courses in BHS</button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}">
+                <button class="button-angular heading-d">> Self-learn resources</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="career-section">
+    <!-- cards = cardID 0, career 1, career 2, salary 3, description 4, img_src 5, career 6 -->
+    {% for card in cards %}
+        <div class="career-card-container">
+            <div class="career-card">
+                <div class="career-img-container">
+                    <a href="{{ url_for('views.resources', submenu='career-opportunities', career=card[6]) }}">
+                        <img src="{{ card[5] }}" alt="{{ card[1] }} {{ card[2] }}">
+                    </a>
+                    <div class="career-info">
+                        <div class="textbox">
+                            <hr>
+                            <h2 class="heading-a">{{ card[1] }}</h2>
+                            <h2 class="heading-a">{{ card[2] }}</h2>
+                            <p class="heading-f">{{ card[3] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="career-description">
+                <p class="text-c">{{ card[4] }}</p>
+                <a href="{{ url_for('views.resources', submenu='career-opportunities', career=card[6]) }}">
+                    <button class="button-a">LEARN MORE</button>
+                </a>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,188 @@
+{% extends "base.html" %} {% block title %} Software Developer : BHS Digital technologies Information Centre {% endblock %}
+
+{% block content %}
+
+<br>
+<div class="detail-banner">
+    <div class="detail-banner-content">
+        <div class="detail-info-box">
+            <div class="detail-info-box-content">
+                <div class="career-detail-container">
+                    <h1 class="heading-a">Software Developer</h1>
+                    <div class="detail-banner-textbox">
+                        <p class="left-align button-a">Usually earn :<br>Can earn up to :</p>
+                        <p class="right-align button-a">$85K - $139K per year<br>$60K - $172K per year</p>
+                    </div>
+                </div>
+                <p class="detail-route heading-d"><a href="{{ url_for('views.resources', submenu='career-opportunities') }}">Career opportunities</a>  >  Software developer</p>
+            </div>
+        </div>
+        <div class="detail-intro heading-d">
+            <p>Software developers design, build, and maintain software applications by writing and troubleshooting code to meet users' needs.</p>
+        </div>
+    </div>
+    <div class="detail-banner-img no-margin">
+        <img src="/static/img/software-banner.png" alt="software development">
+    </div>
+</div>
+
+<div class="career-detail-container detail-main-container">
+    <div class="detail-main-content-a">
+        <div class="detail-sidebar">
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Software Developer') }}">
+                <button class="sidebar-content-current button-a">
+                    <div>Software developer</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='System Administrator') }}">
+                <button class="sidebar-content button-a">
+                    <div>System administrator</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Web Developer') }}">
+                <button class="sidebar-content button-a">
+                    <div>Web developer</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Business Analyst') }}">
+                <button class="sidebar-content button-a">
+                    <div>Business analyst</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Security Analyst') }}">
+                <button class="sidebar-content button-a">
+                    <div>Security analyst</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Network Administrator') }}">
+                <button class="sidebar-content button-a">
+                    <div>Network administrator</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+        </div>
+    
+        <div class="career-detail-content">
+            <div class="detail-description-container">
+                <div class="detail-vertical-line"> </div>
+                <div class="detail-textbox-container">
+                    <div class="detail-textbox">
+                        <h4 class="heading-d">What Does a Software Developer Do?</h2>
+                        <p class="text-c-bold">Software developers are the creative minds behind computer programs, applications, and systems that power everything from smartphones to large-scale business operations. They design, code, and test software to ensure it meets user needs, whether it's a simple mobile app or a complex enterprise system. Developers work closely with clients or project managers to understand requirements and then translate those into functional software solutions. They also troubleshoot and fix bugs, update software to improve performance, and ensure that the systems they create are secure and efficient.</p>
+                    </div>
+                    <div class="detail-textbox">
+                        <h4 class="heading-d">Why Consider a Career in Software Development?</h2>
+                        <ul class="text-c-bold">
+                            <li>High Demand: With the increasing reliance on technology, software developers are in high demand across various industries.</li>
+                            <li>Innovation: As a developer, you have the opportunity to create cutting-edge solutions that can make a real impact.</li>
+                            <li>Flexibility: Many software development jobs offer flexible work environments, including remote work options.</li>
+                        </ul>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="detail-main-content-b">
+        <div class="responsibility-heading">
+            <div class="responsibility-top-border"></div>
+            <h4 class="heading-d">Key Responsibilities</h4>
+        </div>
+        <br>
+        <div class="key-responsibilities">
+            <div class="responsibility-item">
+                <img src="/static/img/icon/Design and Development.png" alt="Design and Development icon">
+                <div class="responsibility-textbox">
+                    <h5 class="heading-a">Design and Development</h5>
+                    <p class="text-c-bold">Creating software solutions by writing and testing code in various programming languages.</p>
+                </div>
+            </div>
+            <div class="responsibility-item">
+                <img src="/static/img/icon/Collaboration.png" alt="Collaboration icon">
+                <div class="responsibility-textbox">
+                    <h5 class="heading-a">Collaboration</h5>
+                    <p class="text-c-bold">Working with teams, including designers, analysts, and other developers, to deliver quality software.</p>
+                </div>
+            </div><div class="responsibility-item">
+                <img src="/static/img/icon/Problem Solving.png" alt="Problem Solving icon">
+                <div class="responsibility-textbox">
+                    <h5 class="heading-a">Problem Solving</h5>
+                    <p class="text-c-bold">Debugging and troubleshooting software issues to ensure smooth performance.</p>
+                </div>
+            </div><div class="responsibility-item">
+                <img src="/static/img/icon/Maintenance.png" alt="Maintenance icon">
+                <div class="responsibility-textbox">
+                    <h5 class="heading-a">Maintenance</h5>
+                    <p class="text-c-bold">Updating and improving software to adapt to changing user needs and technologies.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="skills-required">
+            <img src="/static/img/skills-required.png" alt="skills-required">
+            <div class="skills-required-textbox">
+                <h4 class="heading-a">Skills required:</h2>
+                <ul class="button-a">
+                    <li>✔&nbsp;&nbsp;&nbsp;Proficiency in programming languages like Python, Java, or C++</li>
+                    <li>✔&nbsp;&nbsp;&nbsp;Strong problem-solving abilities and attention to detail</li>
+                    <li>✔&nbsp;&nbsp;&nbsp;Ability to work well in a team and communicate technical concepts clearly</li>
+                    <li>✔&nbsp;&nbsp;&nbsp;Knowledge of software development methodologies, such as Agile or Scrum</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="info-center">
+    <a href="{{ url_for('views.resources', submenu='home') }}">
+        <button class="resources-button text-d">Our Resources</button>
+    </a>
+    <br><br>
+    <h2 class="heading-e border-text">Information Centre</h2>
+    <br>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-1.png" alt="Career opportunities">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Career opportunities</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-2.png" alt="Self-learn Resources">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Self-learn Resources</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-3.png" alt="Courses at Burnside">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Courses at Burnside</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="icon">➜</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

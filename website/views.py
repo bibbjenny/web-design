@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, abort
 import sqlite3
+from werkzeug.exceptions import NotFound
 
 views = Blueprint('views', __name__)
-
 
 def query_db(sql, args=(), one=False):
     '''connect and query- will retun one item if one=true and can accept arguments as tuple'''
@@ -20,22 +20,59 @@ def index():
     return render_template("index.html")
 
 
-@views.route('/resources/', defaults={'submenu':None})
-@views.route('/resources/<submenu>')
-def resources(submenu):
+@views.route('/resources/<submenu>', defaults={'career':None})
+@views.route('/resources/<submenu>/<career>')
+def resources(submenu, career):
     if submenu == 'career-opportunities':
-        sql = 'SELECT * FROM career_cards;'
-        cards = query_db(sql)
-        return render_template('r-career.html', cards=cards)
+        if career == 'Software Developer':
+            return render_template('career/software.html')
+        
+        elif career == 'System Administrator':
+            return render_template('career/system.html')
+        
+        elif career == 'Web Developer':
+            return render_template('career/web.html')
+        
+        elif career == 'Business Analyst':
+            return render_template('career/business.html')
+        
+        elif career == 'Security Analyst':
+            return render_template('career/security.html')
+        
+        elif career == 'Network Administrator':
+            return render_template('career/network.html')
+        
+        elif career == None:
+            sql = 'SELECT * FROM career_cards;'
+            cards = query_db(sql)
+            return render_template('career/r-career.html', cards=cards)
+        
+        else:
+            abort(404)
     
     elif submenu == 'courses-at-burnside':
-        return render_template('r-courses.html')
+        sql1 = "SELECT course_name, course_link FROM courses_bhs WHERE level = 'Year 10 Courses';"
+        yr10courses = query_db(sql1)
+        sql2 = "SELECT course_name, course_link FROM courses_bhs WHERE level = 'NCEA Level 1 Courses';"
+        level1courses = query_db(sql2)
+        sql3 = "SELECT course_name, course_link FROM courses_bhs WHERE level = 'NCEA Level 2 Courses';"
+        level2courses = query_db(sql3)
+        sql4 = "SELECT course_name, course_link FROM courses_bhs WHERE level = 'NCEA Level 3 Courses';"
+        level3courses = query_db(sql4)
+        return render_template('r-courses.html', 
+                               yr10courses=yr10courses,
+                               level1courses=level1courses,
+                               level2courses=level2courses,
+                               level3courses=level3courses)
     
     elif submenu == 'self-learn-resources':
         return render_template('r-self.html')
     
-    else:
+    elif submenu=='home':
        return render_template('resources.html')
+    
+    else:
+        abort(404)
 
 
 @views.route('/forum/<id>/', methods=['GET', 'POST'])
@@ -51,6 +88,9 @@ def forum(id):
             return render_template('forumHome.html', posts=posts)
         else:
             return render_template('forumHome.html', posts='No posts are currently available')
+
+    elif id == None:
+        abort(404)
 
     else:
         # id = forum_posts.postID
@@ -117,11 +157,10 @@ def createANDedit(action, subject):
                     # sql = 'SELECT postID'
                     # How to view the written post right after without specifying the ID when creating post?
                     return redirect(url_for('views.forum', id='home' )) 
-            
                 else:
                     flash('Login is required', category='error')
                     return redirect(url_for('auth.login'))
-            
+
         # CREATE COMMENT
         elif subject == 'comment':
             if request.method == 'POST':

@@ -1,5 +1,115 @@
-{% extends "base.html" %} {% block title %} Resources : BHS Digital technologies Information Centre {% endblock %}
+{% extends "base.html" %} {% block title %} Courses at BHS : BHS Digital technologies Information Centre {% endblock %}
 
 {% block content %}
-hello
+
+<section class="courses-banner-img banner no-margin">
+    <div class="banner-content">
+        <h1 class="heading-f">Courses at Burnside</h1>
+        <br>
+        <div class="banner-buttons">
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}">
+                <button class="button-angular heading-d">> Self-learn resources</button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities') }}">
+                <button class="button-angular heading-d">> Career Opportunities</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="bhs-courses-heading">
+    <h2 class="heading-a">Click to view the courses</h2>
+</div> -->
+
+<!-- corse_name, course_link -->
+<div class="courses-level">
+    <details>
+        <summary class="border-top-black heading-a"><h3>Year 10 Courses</h3></summary>
+        {% for course in yr10courses %}
+        <ul>
+            <a class="bhs-course-link" href="{{ course[1] }}">
+                <li class="heading-d">>&nbsp; {{ course[0] }}</li>
+            </a>
+        </ul>
+        {% endfor %}
+    </details>
+
+    <details>
+        <summary class="border-top-black heading-a"><h3>NCEA Level 1 Courses</h3></summary>
+        {% for course in level1courses %}
+        <ul>
+            <a class="bhs-course-link" href="{{ course[1] }}">
+                <li class="heading-d">>&nbsp; {{ course[0] }}</li>
+            </a>
+        </ul>
+        {% endfor %}
+    </details>
+
+    <details>
+        <summary class="border-top-black heading-a"><h3>NCEA Level 2 Courses</h3></summary>
+        {% for course in level2courses %}
+        <ul>
+            <a class="bhs-course-link" href="{{ course[1] }}">
+                <li class="heading-d">>&nbsp; {{ course[0] }}</li>
+            </a>
+        </ul>
+        {% endfor %}
+    </details>
+
+    <details>
+        <summary class="border-top-black heading-a"><h3>NCEA Level 3 Courses</h3></summary>
+        {% for course in level3courses %}
+        <ul>
+            <a class="bhs-course-link" href="{{ course[1] }}">
+                <li class="heading-d">>&nbsp; {{ course[0] }}</li>
+            </a>
+        </ul>
+        {% endfor %}
+    </details>
+</div>
+
+<div class="info-center">
+    <a href="{{ url_for('views.resources', submenu='home') }}">
+        <button class="resources-button text-d">Our Resources</button>
+    </a>
+    <br><br>
+    <h2 class="heading-e border-text">Information Centre</h2>
+    <br>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-1.png" alt="Career opportunities">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Career opportunities</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-2.png" alt="Self-learn Resources">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Self-learn Resources</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-3.png" alt="Courses at Burnside">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Courses at Burnside</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="icon">➜</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

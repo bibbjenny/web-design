@@ -10,7 +10,7 @@
         <h4 class="heading-a">What career opportunities does it offer?</h4>
         <h4 class="heading-a">Where can I learn Digital Technologies?</h4>
         <br><br>
-        <a href="{{ url_for('views.resources') }}">
+        <a href="{{ url_for('views.resources', submenu='home') }}">
             <button class="button-round button-a">LEARN MORE</button>
         </a>
     </div>
@@ -30,9 +30,9 @@
             <div class="border-top-bottom">
                 <h5 class="heading-d">Start studying today! Not sure where to start?</h5>
                 <ul class="text-b">
-                    <li><a href="#" class="home-link">→ Click to see self-learning resources</a></li>
-                    <li><a href="#" class="home-link">→ Click to see courses in Burnside</a></li>
-                    <li><a href="#" class="home-link">→ Click to see career opportunities</a></li>
+                    <li><a href="{{ url_for('views.resources', submenu='career-opportunities') }}" class="home-link">→ Click to see career opportunities</a></li>
+                    <li><a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="home-link">→ Click to see self-learning resources</a></li>
+                    <li><a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="home-link">→ Click to see courses in Burnside</a></li>
                 </ul>
             </div>
         </div>
@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<div id="info-center">
+<!-- <div id="info-center">
     <h2 class="heading-i">INFORMATION CENTRE</h2>
     <div class="info-boxes text-i">
         <div class="info-box">
@@ -60,6 +60,50 @@
         </div>
         <div class="info-box">
             <p><a href="#" class="info-link">self-learn<br>resources</a></p>
+        </div>
+    </div>
+</div> -->
+
+<div class="info-center">
+    <a href="{{ url_for('views.resources', submenu='home') }}">
+        <button class="resources-button text-d">Our Resources</button>
+    </a>
+    <br><br>
+    <h2 class="heading-e border-text">Information Centre</h2>
+    <br>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-1.png" alt="Career opportunities">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Career opportunities</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-2.png" alt="Self-learn Resources">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Self-learn Resources</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-3.png" alt="Courses at Burnside">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Courses at Burnside</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="icon">➜</a>
         </div>
     </div>
 </div>

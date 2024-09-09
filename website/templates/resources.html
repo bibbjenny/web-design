@@ -25,14 +25,17 @@
             <br>Click below to learn more on how to get started
             <br>↓
         </p>
-            <a>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}">
                 <button class="learn-more-btn button-round button-b">Click to learn more</button>
             </a>
     </div>    
 </div>
 
+
 <div class="info-center">
-    <button class="resources-button text-d">Our Resources</button>
+    <a href="{{ url_for('views.resources', submenu='home') }}">
+        <button class="resources-button text-d">Our Resources</button>
+    </a>
     <br><br>
     <h2 class="heading-e border-text">Information Centre</h2>
     <br>
@@ -57,7 +60,7 @@
                 <h3 class="heading-f">Self-learn Resources</h3>
             </div>
             <br>
-            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="icon">➜</a>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="icon">➜</a>
         </div>
         <div class="card">
             <div class="card-image-container">
@@ -68,7 +71,7 @@
                 <h3 class="heading-f">Courses at Burnside</h3>
             </div>
             <br>
-            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="icon">➜</a>
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="icon">➜</a>
         </div>
     </div>
 </div>
