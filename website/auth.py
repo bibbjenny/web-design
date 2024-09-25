@@ -19,6 +19,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    ''' login function '''
     # User reached route via POST (as by submitting a form via POST)
     if request.method == 'POST':
         username = request.form.get('username')
@@ -50,6 +51,7 @@ def login():
 
 @auth.route('/logout')
 def logout():
+    '''logout function'''
     if 'user' in session:
         session.pop('user', None)
         flash('Logged out successfully')
@@ -60,6 +62,7 @@ def logout():
         
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def signup():
+    '''sign up function'''
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         email = str(request.form.get('email')) # near "@gmail": syntax error

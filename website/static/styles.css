@@ -46,6 +46,24 @@ main {
   background-color: #F9F6F4;
   width: 100vw;
   min-height: 80px;
+  color: #2C2D2D;
+}
+
+.nav-logo {
+  margin-right: 40px;
+}
+
+.navbar a {
+  color: #2C2D2D;
+}
+
+.navbar a:hover {
+  color: #878f8f;
+}
+
+
+.nav-btn:active {
+  background-color: #2C2D2D;
 }
 
 
@@ -389,8 +407,7 @@ h1 {
 }
 
 
-
-/* ========== Before ========== */
+/*========== Footer ========== */
 
 footer {
   background-color: #FFD98E;
@@ -402,7 +419,88 @@ footer {
   position: relative;
   margin-left: -50vw;
   margin-right: -50vw;
+
+  color: #5E221A;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
+
+.footer-section {
+  margin: 10px;
+  padding: 20px;
+}
+
+/* .logo {
+  width: 80px;
+  height: 80px;
+  background-color: #3498db;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+} */
+
+.logo-img {
+  max-width: 120px;
+  padding-left: 40px;
+}
+
+.nav-links a {
+  color: #5E221A;
+  text-decoration: none;
+  margin-right: 15px;
+}
+
+.contact-info p {
+  margin: 5px 0;
+}
+
+.social-icons a {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-color: #3b5998;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 5px;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.social-icons a:nth-child(2) {
+  background-color: #1da1f2;
+}
+
+.social-icons a:nth-child(3) {
+  background-color: #e4405f;
+}
+
+.copyright {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .footer {
+      flex-direction: column;
+      align-items: center;
+  }
+  .footer-section {
+      margin: 10px 0;
+      text-align: center;
+  }
+}
+
+
+/* ========== Before ========== */
 
 .inline {
   display: inline;
@@ -583,6 +681,14 @@ main {
 #home-questions p {
   font-size: 1.2em;
   margin-bottom: 40px;
+}
+
+/* .home-question-btn{
+  color: black;
+} */
+
+.home-questions-link button:hover {
+  background-color: rgb(255, 255, 255,0.1);
 }
 
 

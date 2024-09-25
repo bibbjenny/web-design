@@ -23,6 +23,7 @@ def index():
 @views.route('/resources/<submenu>', defaults={'career':None})
 @views.route('/resources/<submenu>/<career>')
 def resources(submenu, career):
+    '''routes for resources page'''
     if submenu == 'career-opportunities':
         if career == 'Software Developer':
             return render_template('career/software.html')
@@ -77,6 +78,7 @@ def resources(submenu, career):
 
 @views.route('/forum/<id>/', methods=['GET', 'POST'])
 def forum(id):
+    '''load community page'''
     # if action_comment and commentID is None: #not adjusting comments
     if id == 'home':
         # shows list of posts with their titles
@@ -93,37 +95,41 @@ def forum(id):
         abort(404)
 
     else:
-        # id = forum_posts.postID
-        id = int(id)
+        try:
+            id = int(id)
 
-        # GRAB POST
-        sql_post = '''SELECT f.title, f.content, f.post_date, u.username, u.userID, u.profile_pic
-        FROM user u
-        LEFT JOIN forum_posts f on u.userID = f.userID
-        WHERE f.postID = ?;'''
-        post_data = query_db(sql_post, (id,), one=True)
-        # title 0, content 1, date 2, username 3, userID 4, profile_pic 5
-        if not post_data: # post doesn't exist
-            flash('Post not available.', category='error')
-            return redirect(url_for('views.forum', id = 'home'))
+            # GRAB POST
+            sql_post = '''SELECT f.title, f.content, f.post_date, u.username, u.userID, u.profile_pic
+            FROM user u
+            LEFT JOIN forum_posts f on u.userID = f.userID
+            WHERE f.postID = ?;'''
+            post_data = query_db(sql_post, (id,), one=True)
+            # title 0, content 1, date 2, username 3, userID 4, profile_pic 5
+            if not post_data: # post doesn't exist
+                flash('Post not available.', category='error')
+                return redirect(url_for('views.forum', id = 'home'))
 
-        # GRAB COMMENTS
-        sql_comment = '''SELECT c.*, u.username
-        FROM comments c
-        LEFT JOIN user u ON c.userID = u.userID
-        WHERE c.postID = ?;'''
-        comment_data = query_db(sql_comment, (id,))
-        # comID 0, userID 1, postID 2, content 3, date 4, username 5
-        return render_template('forum.html', postID = id,
-        title = post_data[0],
-        content = post_data[1],
-        date = post_data[2],
-        username = post_data[3],
-        userID = post_data[4],
-        profile_pic = post_data[5], comments = comment_data)
+            # GRAB COMMENTS
+            sql_comment = '''SELECT c.*, u.username
+            FROM comments c
+            LEFT JOIN user u ON c.userID = u.userID
+            WHERE c.postID = ?;'''
+            comment_data = query_db(sql_comment, (id,))
+            # comID 0, userID 1, postID 2, content 3, date 4, username 5
+            return render_template('forum.html', postID = id,
+            title = post_data[0],
+            content = post_data[1],
+            date = post_data[2],
+            username = post_data[3],
+            userID = post_data[4],
+            profile_pic = post_data[5], comments = comment_data)
+        except ValueError:
+            # id isn't int, nor is home
+            abort(404)
 
 @views.route('/<action>/<subject>', methods=['GET', 'POST'])
-def createANDedit(action, subject):
+def createANDedit(action, subject): 
+    ''' create and edit functions for posts and comments '''
     if action == 'create':
         # 1. create post/comment
         # CREATE POST
@@ -310,6 +316,7 @@ def createANDedit(action, subject):
 
 @views.route('/delete/<subject>/<id>', methods = ['POST'])
 def delete(subject, id):
+    '''delete system for posts and comments'''
     if subject == 'post':
         # deleting post
         postID = int(id)

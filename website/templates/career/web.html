@@ -2,4 +2,187 @@
 
 {% block content %}
 
+<br>
+<div class="detail-banner">
+    <div class="detail-banner-content">
+        <div class="detail-info-box">
+            <div class="detail-info-box-content">
+                <div class="career-detail-container">
+                    <h1 class="heading-a">Web<br>Developer</h1>
+                    <div class="detail-banner-textbox">
+                        <p class="left-align button-a">Usually earn :</p>
+                        <p class="right-align button-a">$75K - $95K per year</p>
+                    </div>
+                </div>
+                <p class="detail-route heading-d"><a href="{{ url_for('views.resources', submenu='career-opportunities') }}">Career opportunities</a>  >  Web developer</p>
+            </div>
+        </div>
+        <div class="detail-intro heading-d">
+            <p>Web developers create and maintain websites by coding and designing web pages, ensuring they are functional, user-friendly, and visually appealing.</p>
+        </div>
+    </div>
+    <div class="detail-banner-img no-margin">
+        <img src="/static/img/web-banner.png" alt="web development">
+    </div>
+</div>
+
+<div class="career-detail-container detail-main-container">
+    <div class="detail-main-content-a">
+        <div class="detail-sidebar">
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Software Developer') }}">
+                <button class="sidebar-content button-a">
+                    <div>Software developer</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='System Administrator') }}">
+                <button class="sidebar-content button-a">
+                    <div>System administrator</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Web Developer') }}">
+                <button class="sidebar-content-current button-a">
+                    <div>Web developer</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Business Analyst') }}">
+                <button class="sidebar-content button-a">
+                    <div>Business analyst</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Security Analyst') }}">
+                <button class="sidebar-content button-a">
+                    <div>Security analyst</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities', career='Network Administrator') }}">
+                <button class="sidebar-content button-a">
+                    <div>Network administrator</div>
+                    <div class="button-c">></div>
+                </button>
+            </a>
+        </div>
+    
+        <div class="career-detail-content">
+            <div class="detail-description-container">
+                <div class="detail-vertical-line"> </div>
+                <div class="detail-textbox-container">
+                    <div class="detail-textbox">
+                        <h4 class="heading-d">What Does a Web Developer Do?</h2>
+                        <p class="text-c-bold">A Web Developer specialises in building and maintaining websites and web applications. They work on both the front-end, which is the part of the website that users see and interact with, and the back-end, which handles data processing and ensures that the website functions correctly behind the scenes. Web Developers combine technical skills with creativity to design user-friendly, responsive, and visually appealing websites that work seamlessly across various devices and browsers.</p>
+                    </div>
+                    <div class="detail-textbox">
+                        <h4 class="heading-d">Why Consider a Career in Web Development?</h2>
+                        <ul class="text-c-bold">
+                            <li><strong>Creative Freedom:</strong> Web Developers can design and create unique websites, combining their technical skills with creativity.</li>
+                            <li><strong>High Demand:</strong> The growing need for online businesses and services means that skilled Web Developers are in high demand.</li>
+                            <li><strong>Versatility:</strong> Web Developers can work in a variety of industries, from tech companies to marketing agencies, or even as freelancers.</li>
+                        </ul>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    
+    <div class="detail-main-content-b">
+        <div class="responsibility-heading">
+            <div class="responsibility-top-border"></div>
+            <h4 class="heading-d">Key Responsibilities</h4>
+        </div>
+        <br>
+        <div class="key-responsibilities">
+            <div class="responsibility-item">
+                <img src="/static/img/icon/front-end.png" alt="Front-End icon">
+                <div class="responsibility-textbox">
+                    <h5 class="heading-a">Front-End Development</h5>
+                    <p class="text-c-bold">Designing and coding the visual and interactive aspects of a website ensuring that the site is visually appealing.</p>
+                </div>
+            </div>
+            <div class="responsibility-item">
+                <img src="/static/img/icon/back-end.png" alt="Back-end icon">
+                <div class="responsibility-textbox">
+                    <h5 class="heading-a">Back-End Development</h5>
+                    <p class="text-c-bold">Managing server tasks like database handling, server setup, and coding to power the website's functionality.</p>
+                </div>
+            </div><div class="responsibility-item">
+                <img src="/static/img/icon/repair.png" alt="Repair icon">
+                <div class="responsibility-textbox">
+                    <h5 class="heading-a">Website Maintenance and Updates</h5>
+                    <p class="text-c-bold">Regularly updating the website to fix issues, improve speed, and add new features to keep it running smoothly.</p>
+                </div>
+            </div><div class="responsibility-item">
+                <img src="/static/img/icon/testing.png" alt="Testing icon">
+                <div class="responsibility-textbox">
+                    <h5 class="heading-a">Testing and Debugging</h5>
+                    <p class="text-c-bold">Checking the website on different browsers to find and fix any problems with its performance, security, or usability.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="skills-required">
+            <img src="/static/img/skills-required.png" alt="skills-required">
+            <div class="skills-required-textbox">
+                <h4 class="heading-a">Skills required:</h2>
+                <ul class="button-a">
+                    <li>✔&nbsp;&nbsp;&nbsp;Proficiency in front-end languages such as HTML, CSS, and JavaScript</li>
+                    <li>✔&nbsp;&nbsp;&nbsp;Knowledge of back-end languages including PHP, Python, or Node.js</li>
+                    <li>✔&nbsp;&nbsp;&nbsp;Experience with web frameworks and libraries like React, Angular, or Django</li>
+                    <li>✔&nbsp;&nbsp;&nbsp;Strong problem-solving abilities and an eye for design</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="info-center">
+    <a href="{{ url_for('views.resources', submenu='home') }}">
+        <button class="resources-button text-d">Our Resources</button>
+    </a>
+    <br><br>
+    <h2 class="heading-e border-text">Information Centre</h2>
+    <br>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../../static/img/info-center-1.png" alt="Career opportunities">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Career opportunities</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../../static/img/info-center-2.png" alt="Self-learn Resources">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Self-learn Resources</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../../static/img/info-center-3.png" alt="Courses at Burnside">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Courses at Burnside</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="icon">➜</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

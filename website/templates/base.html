@@ -74,7 +74,76 @@
 </head>
 <body class="custom-bg">
   
-  <nav class = "navbar navbar-expand-lg navbar-light custom-bg fixed-top">
+  <nav class = "navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <!-- Logo on the left -->
+      <a class="navbar-brand heading-f" href="/">
+        <!-- <img src="/static/img/logo.png" alt="Logo" width="30" height="30" class="nav-logo d-inline-block align-text-top"> -->
+        BHS Digitech Info Center
+      </a>
+
+      <!-- Toggler for mobile view -->
+      <button 
+        class="navbar-toggler" 
+        type ="button" 
+        data-toggle="collapse" 
+        data-target="#navbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar content on the right -->
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-item nav-link" id="home" href="/">
+              Home
+            </a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-item nav-link dropdown-toggle" id="resources" href="/resources/home" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Resources
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item nav-btn" href="/resources/home">Home</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item nav-btn" href="/resources/career-opportunities">Career Opportunities</a>
+              <a class="dropdown-item nav-btn" href="/resources/self-learn-resources">Self-learn Resources</a>
+              <a class="dropdown-item nav-btn" href="/resources/courses-at-burnside">Courses at Butnside</a>
+            </div>
+          </li>
+          
+          <li class="nav-item active"></li>
+            <a class="nav-item nav-link" id="forum" href="/forum/home">
+              Community <span class="sr-only">(current)</span>
+            </a>
+          </li>
+
+          {% if session.get('user') %}
+          <li class="nav-item active"></li>
+            <a class="nav-item nav-link" id="forum" href="/logout">
+              Logout
+            </a>
+          </li>
+
+          {% else %}
+          <li class="nav-item active"></li>
+            <a class="nav-item nav-link" id="forum" href="/login">
+              Login <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item active"></li>
+            <a class="nav-item nav-link" id="forum" href="/sign-up">
+              Sign up <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- <nav class = "navbar navbar-expand-lg navbar-light custom-bg fixed-top">
     <div class="container-fluid"> 
       <button 
         class="navbar-toggler" 
@@ -84,28 +153,10 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Resources</a>
-          </li>
-        </ul>
-
         <div class="navbar-nav">
           <a class="nav-item nav-link" id="home" href="/">Home</a>
           <a class="nav-item nav-link" id="resources" href="/resources/home">Resources</a>
           <a class="nav-item nav-link" id="forum" href="/forum/home">Forum board</a>
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
           {% if session.get('user') %}
             <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           {% else %}
@@ -115,7 +166,7 @@
         </div>
       </div>
     </div>
-  </nav>
+  </nav> -->
 
 
   {% with messages = get_flashed_messages(with_categories=true) %}
@@ -148,11 +199,31 @@
     {% endblock %}
   </main>
 
-  <footer>
-    <div class="footer-content">
-        <!-- Add footer content here -->
+  <!-- footer -->
+  <footer class="footer">
+    <div class="footer-section">
+        <div class="logo">
+          <img class="logo-img" src="/static/img/logo.png" alt="logo">
+        </div>
     </div>
-  </footer>
+    <div class="footer-section nav-links text-c-bold">
+        <a href="/">Home</a>
+        <a href="/resources/home">Resources</a>
+        <a href="/forum/home">Commutnity</a>
+        <a href="#">Contact</a>
+    </div>
+    <div class="footer-section contact-info text-c-bold">
+        <p>Email: admin@burnside.school.nz</p>
+        <p>Phone: 03 358 8383</p>
+        <p>Address: 139 Greers Road, Burnside, Christchurch 8053</p>
+    </div>
+    <div class="footer-section social-icons">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Twitter">t</a>
+        <a href="#" aria-label="Instagram">i</a>
+    </div>
+
+</footer>
 
   <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
