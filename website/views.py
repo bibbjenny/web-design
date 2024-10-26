@@ -171,17 +171,23 @@ def createANDedit(action, subject):
         elif subject == 'comment':
             if request.method == 'POST':
                 if 'user' in session: 
-                        # double check if user is logged in
-                        user = session.get('user')
-                        # 0 id, 1 email, 2 username, 3 password, 4 profile pic
-                        content = request.form.get('comment')
-                        postID = request.form.get('postID')
+                    # double check if user is logged in
+                    user = session.get('user')
+                    # 0 id, 1 email, 2 username, 3 password, 4 profile pic
+                    content = request.form.get('content')
+                    postID = request.form.get('postID')
+                    sql='SELECT * FROM forum_posts WHERE postID = ?'
+                    post = query_db(sql, (postID,),)
+                    if post:
                         if not content:
                             flash('Comment can not be empty', category='error')
                             return render_template('forumCreate.html', postID= postID, edit_comment=True)
                         sql = 'INSERT INTO comments (userID, postID, content) VALUES (?, ?, ?);'
                         query_db(sql, (user[0], postID, content))
                         return redirect(url_for('views.forum', id=postID))
+                    else:
+                        flash('Post not available', category='error')
+                        return redirect(url_for('views.forum', id='home'))
                 else:
                     flash('Login is required', category='error')
                     return redirect(url_for('auth.login'))
@@ -224,6 +230,7 @@ def createANDedit(action, subject):
                 post_data = query_db(sql, (postID,), one=True)
                 # 0 postID, 1 userID, 2 title, 3 content, 4 date 
                 if post_data != None:
+                    # doble check if post exist
                     if 'user' in session: # double check if user is logged in
                         userID = session['user'][0]
                         # 0 id, 1 email, 2 username, 3 password, 4 profile pic
@@ -293,10 +300,15 @@ def createANDedit(action, subject):
                         if userID == comment_userID:
                             # check if current user wrote this comment
                             new_content = request.form.get('content')
-                            sql2 = 'UPDATE comments SET content = ? WHERE comID = ?;'
-                            query_db(sql2, (new_content, commentID,))
-                            flash('Comment saved!', category='success')
-                            return redirect(url_for('views.forum', id=postID))
+                            if new_content:
+                                sql2 = 'UPDATE comments SET content = ? WHERE comID = ?;'
+                                query_db(sql2, (new_content, commentID,))
+                                flash('Comment saved!', category='success')
+                                return redirect(url_for('views.forum', id=postID))
+                            else:
+                                # user submits empty comment    
+                                flash('Comment can\'t be empty')
+                                return render_template('forumCreate.html')
                         else:
                             flash('Access denied', category='error')
                             return redirect(url_for('views.forum', id=postID))
@@ -310,8 +322,14 @@ def createANDedit(action, subject):
         else: 
             # subject is not post or comment
             abort(404)
+
+    elif action == 'report' and subject =='report':
+        postID = request.args.get('postID', type=int)
+        flash('🔨 We\'re building our reporting system! Thank you for your patience as we work to make our community safer.')
+        return redirect(url_for('views.forum', id=postID))
+    
     else:
-        # action is not create or edit
+        # action is not create or edit or report
         abort(404)
 
 @views.route('/delete/<subject>/<id>', methods = ['POST'])
@@ -331,7 +349,7 @@ def delete(subject, id):
                 userID = session['user'][0]
                 # 0 id, 1 email, 2 username, 3 password, 4 profile pic
                 if userID == post_data[1]:
-                    # check if user wrote this post
+                    # ch    eck if user wrote this post
                     sql = 'DELETE FROM forum_posts WHERE postID = ?;'
                     query_db(sql, (postID,))
                     flash('Post deleted', category='success')

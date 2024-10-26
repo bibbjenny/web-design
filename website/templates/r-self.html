@@ -1,5 +1,111 @@
 {% extends "base.html" %} {% block title %} Self-learn Resources : BHS Digital technologies Information Centre {% endblock %}
 
 {% block content %}
-vello
+
+<section class="banner self-learn-banner-img no-margin">
+    <div class="banner-content">
+        <h1 class="heading-f">Self-learn resources</h1>
+        <br>
+        <div class="banner-buttons">
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}">
+                <button class="button-angular heading-d">> Digitech courses in BHS</button>
+            </a>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities') }}">
+                <button class="button-angular heading-d">> Career Opportunities</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="scroll-more">
+    <h1>Have never studied Digital technologies?</h1>
+    <br>
+    <p>Don't worry just yet! There are so many resources out in the online world.</p>
+    <br><br>
+    <button class="button-a scroll-button">SCROLL DOWN</button>
+</div>
+
+<div class="self-learn-card">
+    <img src="../static/img/w3school.png" alt="W3Schools logo">
+    <div class="resource-info">
+        <h2 class="heading-f">W3School</h2>
+        <br>
+        <p class="button-a">W3Schools is an online platform that offers free tutorials and references for web development. It covers topics like HTML, CSS, JavaScript, and other web technologies, providing easy-to-follow examples and exercises. Whether you're a beginner or looking to improve your skills, W3Schools is a great resource for learning how to build and design websites.</p>
+        <br>
+        <a href="https://www.w3schools.com/">
+            <button class="start-learning">START LEARNING</button>
+        </a>
+    </div>
+</div>
+
+<div class="self-learn-card">
+    <img src="../static/img/khan-academy.png" alt="Khan Academy logo" class="resource-logo">
+    <div class="resource-info">
+        <h2 class="heading-f">Khan Academy</h2>
+        <br>
+        <p class="button-a">Khan Academy is an online learning platform that offers free educational resources for students of all ages. It provides video lessons, practice exercises, and quizzes on a wide range of subjects. Whether you're looking to strengthen your skills or explore new topics, Khan Academy makes learning accessible and easy to understand.</p>
+        <br>
+        <a href="https://www.khanacademy.org/">
+            <button class="start-learning">START LEARNING</button>
+        </a>
+    </div>
+</div>
+
+<div class="self-learn-card">
+    <img src="../static/img/gfg.png" alt="GeeksforGeeks logo" class="resource-logo">
+    <div class="resource-info">
+        <h2 class="heading-f">GeeksforGeeks</h2>
+        <br>
+        <p class="button-a">GeeksforGeeks is an online platform that helps people learn and improve their programming skills. It offers tutorials, coding problems, and articles on topics like algorithms, data structures, and web development. Whether you're just starting out or already have experience, GeeksforGeeks is a great resource for learning and practising coding.</p>
+        <br>
+        <a href="https://www.geeksforgeeks.org/">
+            <button class="start-learning">START LEARNING</button>
+        </a>
+    </div>
+</div>
+
+<div class="info-center">
+    <a href="{{ url_for('views.resources', submenu='home') }}">
+        <button class="resources-button text-d">Our Resources</button>
+    </a>
+    <br><br>
+    <h2 class="heading-e border-text">Information Centre</h2>
+    <br>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-1.png" alt="Career opportunities">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Career opportunities</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='career-opportunities') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-2.png" alt="Self-learn Resources">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Self-learn Resources</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='self-learn-resources') }}" class="icon">➜</a>
+        </div>
+        <div class="card">
+            <div class="card-image-container">
+                <img class="card-image blur" src="../static/img/info-center-3.png" alt="Courses at Burnside">
+            </div>
+            <div class="card-content">
+                <div class="card-category text-c">RESOURCES &gt;</div>
+                <h3 class="heading-f">Courses at Burnside</h3>
+            </div>
+            <br>
+            <a href="{{ url_for('views.resources', submenu='courses-at-burnside') }}" class="icon">➜</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

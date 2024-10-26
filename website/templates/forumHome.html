@@ -1,22 +1,24 @@
 {% extends "base.html" %} {% block title %}Forum board{% endblock %}
 
 {% block content %}
-<br>
-<h1 align="center">Posts</h1>
-<br>
-
-<!-- List of posts -->
-<ul class="list-group list-group-flush" id="posts">
-    {% for post in posts %}
-    <li class="list-group-item custom-bg">
-        <a href="{{ url_for('views.forum', id=post[0]) }}" class="custom-link">{{ post[2] }}</a>
-    </li>
-    {% endfor %}
-</ul>
-
-<br>
-<button type="button" class="btn btn-outline-info">
-    <a href="{{ url_for('views.createANDedit', action='create', subject='post') }}" class="custom-link">Create new post</a>
-</button>
+<div class="post">
+    <h1 align="center">Posts</h1>
+    <br>
+    
+    <!-- List of posts -->
+    <ul class="list-group list-group-flush">
+        {% for post in posts %}
+        <a class="post-list" href="{{ url_for('views.forum', id=post[0]) }}">
+            <li class="post-list-li heading-d">>&nbsp; {{ post[2] }}</li>
+        </a>
+        {% endfor %}
+    </ul>
+    
+    <br>
+    <a href="{{ url_for('views.createANDedit', action='create', subject='post') }}">
+        <button type="button" class="create-post-btn button a">Create New Post</button>
+    </a>
+    
+</div>
 
 {% endblock %}

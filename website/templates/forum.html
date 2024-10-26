@@ -20,30 +20,31 @@
     <br>
     <div>
         <!-- CREATE COMMENT -->
-        <ul class="list-group list-group-flush" id="comments">
-            <li class="list-group-item custom-bg comment">
-                {% if 'user' in session %}
-                        <button class="comment-btn" onclick="document.getElementById('commentBox').classList.toggle('hidden');">▶ Click to add your comment...</button>
-                        <div id="commentBox" class="comment-box hidden">
-                            <form method="POST" action="{{ url_for('views.createANDedit', action='create', subject='comment') }}">
-                                <input type="hidden" name="postID" value="{{ postID }}">
-                                <textarea 
-                                name="content"
-                                id="content"
-                                placeholder="Write your comment here..."></textarea><br>
-                                <button type="submit" class="submit-comment">Submit Comment</button>
-                            </form>
-                        </div>
-                    {% else %}
-                        <p>Please <a href="{{ url_for('auth.login') }}" class="custom-link-underline">log in</a> to add a comment.</p>
-                    {% endif %}
-                    <br><br>
-            </li>
+        {% if 'user' in session %}
+            <button class="comment-btn" onclick="document.getElementById('commentBox').classList.toggle('hidden');">▶ Click to add your comment...</button>
+            <br>
+            <div id="commentBox" class="comment-box hidden">
+                <form method="POST" action="{{ url_for('views.createANDedit', action='create', subject='comment') }}">
+                    <input type="hidden" name="postID" value="{{ postID }}">
+                    <textarea 
+                    name="content"
+                    id="content"
+                    placeholder="Write your comment here..."></textarea><br>
+                    <button type="submit" class="button-a comment-btn">Submit Comment</button>
+                </form>
+            </div>
+        {% else %}
+            <p>Please <a href="{{ url_for('auth.login') }}" class="custom-link-underline">log in</a> to add a comment.</p>
+        {% endif %}
+
+        <br><br>
+        
+        <ul class="comment-ul list-group list-group-flush" id="comments">
             <!-- VIEW COMMENT -->
             <!-- in comments = comID 0, userID 1, postID 2, content 3, date 4, username 5 -->
             {% for comment in comments %}
-                <li class="list-group-item custom-bg comment">
-                    <p class="inline" style="color: rgb(174, 158, 158)">{{ comment[5] }}</p>                
+                <li class="comment-list-li heading-d">
+                    <p class="inline" style="color: rgb(174, 158, 158)">{{ comment[5] }}</p>
                     <!-- dotMenu -->
                     {% include "dotComment.html" %}
                     <p>{{ comment[3] }}</p>

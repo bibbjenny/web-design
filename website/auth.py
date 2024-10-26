@@ -69,6 +69,7 @@ def signup():
         username = request.form.get('username')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        
 
         db = sqlite3.connect('web.db')
         cursor = db.cursor()

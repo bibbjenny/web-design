@@ -22,8 +22,11 @@
                         <button class="dropdown-item custom-link" type="submit">Delete comment</button> 
                     </form>
                 {% else %}
-                <!-- REPORT -->
-                    <a class="dropdown-item custom-link" href="url_for('views.forum', id=id, actioin_comment = 'report-comment', commentID = comment[1])">Report comment</a>
+                    <!-- REPORT -->
+                    <form action="{{ url_for('views.createANDedit', action='report', subject='report') }}" method="GET">
+                        <input type="hidden" name="postID" value="{{ postID }}">
+                        <button class="dropdown-item custom-link" type="submit">Report comment</button> 
+                    </form>                    
                 {% endif %}
             {% else %}
                 <a class="dropdown-item custom-link" href="{{ url_for('auth.login') }}">Login required for further actions</a>            
